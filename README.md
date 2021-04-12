@@ -1,6 +1,6 @@
 # l3m-PI-serveur : Partie serveur du Projet Intégrateur L3 MIAGE 2020-2021
 
-A stub which can easily be deployed to Heroku.
+A stub which can easily be deployed to Heroku..
 
 This application supports the [Getting Started with Java on Heroku](https://devcenter.heroku.com/articles/getting-started-with-java) article - check it out.
 
