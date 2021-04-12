@@ -36,8 +36,18 @@ public class UserDAO extends DAO<User> {
 
     @Override
     public boolean update(User obj) {
-        // TODO Auto-generated method stub
-        return false;
+        int nb = 0;
+        try {
+            nb = this.connect.createStatement().executeUpdate("UPDATE users SET age = "+obj.age+" where login = '"+obj.login+"'");   
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -45,7 +55,6 @@ public class UserDAO extends DAO<User> {
         // TODO Auto-generated method stub
         return false;
     }
-
     
     public User readWithLogin(String id) {
         User u = new User();

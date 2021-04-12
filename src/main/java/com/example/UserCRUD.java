@@ -97,4 +97,33 @@ public class UserCRUD {
         }
     }
 
+    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
+    //Renvoyer une erreur 412 si l'identifiant du User dans l'URL n'est pas le même que celui du User dans le corp de la requête.
+    @PutMapping("/{userId}") 
+    User update(@PathVariable(value="userId") String id, @RequestBody User u, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            if(u.login.equals(id)) {
+                UserDAO userDAO = new UserDAO(connection);
+                User uNew = userDAO.readWithLogin(id);
+                if(uNew.login == null) {
+                    throw new Exception("ERROR404");
+                } else {
+                    userDAO.update(u);
+                    uNew = userDAO.readWithLogin(id);
+                    connection.close();
+                    return uNew;
+                }
+            } else {
+                throw new Exception("ERROR412");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR412")) {
+                response.setStatus(412);
+            } else if(e.getMessage().equals("ERROR404")) {
+                response.setStatus(404);
+            }
+            return null;
+        }
+    }
 }
