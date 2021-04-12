@@ -1,8 +1,6 @@
 package com.example;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -125,5 +123,26 @@ public class UserCRUD {
             }
             return null;
         }
+    }
+
+    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
+    @DeleteMapping("/{userId}")
+    void delete(@PathVariable(value="userId") String id, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+                UserDAO userDAO = new UserDAO(connection);
+                User uOld = userDAO.readWithLogin(id);
+                if(uOld.login == null) {
+                    throw new Exception("ERROR404");
+                } else {
+                    userDAO.delete(uOld);
+                    connection.close();
+                }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR404")) {
+                response.setStatus(404);
+            }
+        }
+
     }
 }

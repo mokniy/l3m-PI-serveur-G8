@@ -52,10 +52,20 @@ public class UserDAO extends DAO<User> {
 
     @Override
     public boolean delete(User obj) {
-        // TODO Auto-generated method stub
-        return false;
+        int nb = 0;
+        try {
+        nb = this.connect.createStatement().executeUpdate("delete from users where login ='"+obj.login+"'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
+
     public User readWithLogin(String id) {
         User u = new User();
         try {
