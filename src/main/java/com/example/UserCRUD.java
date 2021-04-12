@@ -45,10 +45,11 @@ public class UserCRUD {
     }
 
     @GetMapping("/{userId}")
-    User read(@PathVariable("userId") String id, HttpServletResponse response) {
+    User read(@PathVariable(value="userId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            UserDAO user = new UserDAO(connection);
-            User u = user.readWithLogin(id);
+            UserDAO userDAO = new UserDAO(connection);
+            User u = userDAO.readWithLogin(id);
+            connection.close();
             if(u.login.equals("null")) {
                 throw new Exception("User inexistant");
             } else {
@@ -62,6 +63,36 @@ public class UserCRUD {
                 System.err.println(e2.getMessage());
             }
             System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
+    //Renvoyer une erreur 412 si l'identifiant du User dans l'URL n'est pas le même que celui du User dans le corp de la requête.
+    @PostMapping("/{userId}")
+    User create(@PathVariable(value="userId") String id, @RequestBody User u, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            if(u.login.equals(id)) {
+                UserDAO userDAO = new UserDAO(connection);
+                User uNew = userDAO.readWithLogin(id);
+                if(uNew.login == null) {
+                    userDAO.create(u);
+                    uNew = userDAO.readWithLogin(id);
+                    connection.close();
+                    return uNew;
+                } else {
+                    throw new Exception("ERROR403");
+                }
+            } else {
+                throw new Exception("ERROR412");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR412")) {
+                response.setStatus(412);
+            } else if(e.getMessage().equals("ERROR403")) {
+                response.setStatus(403);
+            }
             return null;
         }
     }

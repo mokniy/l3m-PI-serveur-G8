@@ -12,10 +12,21 @@ public class UserDAO extends DAO<User> {
 
     public UserDAO(Connection conn) {
         super(conn);
-   }
+    }
+
     @Override
     public boolean create(User obj){
-        return false;
+        int nb = 0;
+        try {
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO users VALUES ('"+obj.login+"',"+obj.age+")");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -46,7 +57,6 @@ public class UserDAO extends DAO<User> {
             u.age   = rs.getInt("age");
         }
         stmt.close();
-        connect.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
