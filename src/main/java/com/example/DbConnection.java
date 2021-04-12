@@ -23,6 +23,7 @@ public class DbConnection {
         } else {
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(dbUrl);
+            config.setMaximumPoolSize(3);
             return new HikariDataSource(config);
         }
     }
