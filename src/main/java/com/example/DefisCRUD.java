@@ -130,7 +130,7 @@ public class DefisCRUD {
     void delete(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
                 DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dOld = DefisDAO.readWithLogin(id);
+                Defis dOld = DefisDAO.readWithId(id);
                 if(dOld.id == null) {
                     throw new Exception("ERROR404");
                 } else {

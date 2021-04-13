@@ -74,7 +74,7 @@ public class DefisDAO extends DAO<Defis> {
         if (rs.next()) {
             d.id = rs.getString("id");
             d.titre   = rs.getString("titre");
-            d.dateDeCreation = rs.getDate("dateDeCreation");
+            d.dateDeCreation = rs.getString("dateDeCreation");
             d.description   = rs.getString("description");
             d.auteur   = rs.getString("auteur");
         }
@@ -93,7 +93,7 @@ public class DefisDAO extends DAO<Defis> {
             while (rs.next()) {
                 Defis d = new Defis();
                 d.id = rs.getString("id");
-                d.dateDeCreation rs.getDate("dateDeCreation");
+                d.dateDeCreation rs.getString("dateDeCreation");
                 d.description = rs.getString("description");
                 d.id = rs.getString("titre");
                 d.auteur = rs.getString("auteur");
