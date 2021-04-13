@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dao.UserDAO;
+import dao.ChamisDAO;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/users") 
-public class UserCRUD {
+@RequestMapping("/api/chamis") 
+public class ChamisCRUD {
 
     @Autowired
     private DataSource dataSource;
     
     @GetMapping("/")
-    ArrayList<User> allUsers(HttpServletResponse response) {
+    ArrayList<Chamis> allChamis(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            UserDAO user = new UserDAO(connection);
-            ArrayList<User> L = user.readAllUser();
+            ChamisDAO chamis = new ChamisDAO(connection);
+            ArrayList<Chamis> L = chamis.readAllChamis();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -42,14 +42,14 @@ public class UserCRUD {
         }
     }
 
-    @GetMapping("/{userId}")
-    User read(@PathVariable(value="userId") String id, HttpServletResponse response) {
+    @GetMapping("/{chamisId}")
+    Chamis read(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            UserDAO userDAO = new UserDAO(connection);
-            User u = userDAO.readWithLogin(id);
+            ChamisDAO chamisDAO = new ChamisDAO(connection);
+            Chamis u = chamisDAO.readWithLogin(id);
             connection.close();
             if(u.login.equals("null")) {
-                throw new Exception("User inexistant");
+                throw new Exception("Chamis inexistant");
             } else {
                 return u;
             }
@@ -66,16 +66,16 @@ public class UserCRUD {
     }
 
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
-    //Renvoyer une erreur 412 si l'identifiant du User dans l'URL n'est pas le même que celui du User dans le corp de la requête.
-    @PostMapping("/{userId}")
-    User create(@PathVariable(value="userId") String id, @RequestBody User u, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
+    @PostMapping("/{chamisId}")
+    Chamis create(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             if(u.login.equals(id)) {
-                UserDAO userDAO = new UserDAO(connection);
-                User uNew = userDAO.readWithLogin(id);
+                ChamisDAO chamisDAO = new ChamisDAO(connection);
+                Chamis uNew = chamisDAO.readWithLogin(id);
                 if(uNew.login == null) {
-                    userDAO.create(u);
-                    uNew = userDAO.readWithLogin(id);
+                    chamisDAO.create(u);
+                    uNew = chamisDAO.readWithLogin(id);
                     connection.close();
                     return uNew;
                 } else {
@@ -96,18 +96,18 @@ public class UserCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    //Renvoyer une erreur 412 si l'identifiant du User dans l'URL n'est pas le même que celui du User dans le corp de la requête.
-    @PutMapping("/{userId}") 
-    User update(@PathVariable(value="userId") String id, @RequestBody User u, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
+    @PutMapping("/{chamisId}") 
+    Chamis update(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             if(u.login.equals(id)) {
-                UserDAO userDAO = new UserDAO(connection);
-                User uNew = userDAO.readWithLogin(id);
+                ChamisDAO chamisDAO = new ChamisDAO(connection);
+                Chamis uNew = chamisDAO.readWithLogin(id);
                 if(uNew.login == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    userDAO.update(u);
-                    uNew = userDAO.readWithLogin(id);
+                    chamisDAO.update(u);
+                    uNew = chamisDAO.readWithLogin(id);
                     connection.close();
                     return uNew;
                 }
@@ -126,15 +126,15 @@ public class UserCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    @DeleteMapping("/{userId}")
-    void delete(@PathVariable(value="userId") String id, HttpServletResponse response) {
+    @DeleteMapping("/{chamisId}")
+    void delete(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-                UserDAO userDAO = new UserDAO(connection);
-                User uOld = userDAO.readWithLogin(id);
+                ChamisDAO chamisDAO = new ChamisDAO(connection);
+                Chamis uOld = chamisDAO.readWithLogin(id);
                 if(uOld.login == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    userDAO.delete(uOld);
+                    chamisDAO.delete(uOld);
                     connection.close();
                 }
         } catch (Exception e) {

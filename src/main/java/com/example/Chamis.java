@@ -1,6 +1,6 @@
 package com.example;
 
-public class User {
+public class Chamis {
     public String login;
     public Integer age;
 }

@@ -6,19 +6,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.example.User;
+import com.example.Chamis;
 
-public class UserDAO extends DAO<User> {
+public class ChamisDAO extends DAO<Chamis> {
 
-    public UserDAO(Connection conn) {
+    public ChamisDAO(Connection conn) {
         super(conn);
     }
 
     @Override
-    public boolean create(User obj){
+    public boolean create(Chamis obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO users VALUES ('"+obj.login+"',"+obj.age+")");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO chamis VALUES ('"+obj.login+"',"+obj.age+")");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -30,15 +30,15 @@ public class UserDAO extends DAO<User> {
     }
 
     @Override
-    public User read(int id) {
+    public Chamis read(int id) {
         return null;
     }
 
     @Override
-    public boolean update(User obj) {
+    public boolean update(Chamis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE users SET age = "+obj.age+" where login = '"+obj.login+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+" where login = '"+obj.login+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,10 +51,10 @@ public class UserDAO extends DAO<User> {
     }
 
     @Override
-    public boolean delete(User obj) {
+    public boolean delete(Chamis obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from users where login ='"+obj.login+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from chamis where login ='"+obj.login+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,11 +66,11 @@ public class UserDAO extends DAO<User> {
         }
     }
 
-    public User readWithLogin(String id) {
-        User u = new User();
+    public Chamis readWithLogin(String id) {
+        Chamis u = new Chamis();
         try {
         Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE login = '"+id+"'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM chamis WHERE login = '"+id+"'");
         if (rs.next()) {
             u.login = rs.getString("login");
             u.age   = rs.getInt("age");
@@ -82,13 +82,13 @@ public class UserDAO extends DAO<User> {
         return u;
     }
     
-    public ArrayList<User> readAllUser() {
-        ArrayList<User> L = new ArrayList<User>();
+    public ArrayList<Chamis> readAllChamis() {
+        ArrayList<Chamis> L = new ArrayList<Chamis>();
         try {
             Statement stmt = connect.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM chamis");
             while (rs.next()) {
-                User u = new User();
+                Chamis u = new Chamis();
                 u.login = rs.getString("login");
                 u.age   = rs.getInt("age");
                 L.add(u);
