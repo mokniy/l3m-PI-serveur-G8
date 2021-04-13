@@ -1,4 +1,4 @@
-package crud;
+package com.example;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dao.VisiteDAO;
-import com.example.DbConnection;
-import com.example.RestServer;
-import classes.Visite;
+import dao.ChamisDAO;
+//import com.example.DbConnection;
+//import com.example.RestServer;
+import classes.Chamis;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/visite") 
-public class VisiteCRUD {
+@RequestMapping("/api/chamis") 
+public class ChamisCRUD {
 
     @Autowired
     private DataSource dataSource;
     
     @GetMapping("/")
-    ArrayList<Visite> allVisite(HttpServletResponse response) {
+    ArrayList<Chamis> allChamis(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            VisiteDAO visiteDAO = new VisiteDAO(connection);
-            ArrayList<Visite> L = visiteDAO.readAllVisite();
+            ChamisDAO chamis = new ChamisDAO(connection);
+            ArrayList<Chamis> L = chamis.readAllChamis();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -45,16 +45,16 @@ public class VisiteCRUD {
         }
     }
 
-    @GetMapping("/{visiteId}")
-    Visite read(@PathVariable(value="visiteId") String id, HttpServletResponse response) {
+    @GetMapping("/{chamisId}")
+    Chamis read(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            VisiteDAO visiteDAO = new VisiteDAO(connection);
-            Visite v = visiteDAO.readWithId(id);
+            ChamisDAO chamisDAO = new ChamisDAO(connection);
+            Chamis u = chamisDAO.readWithLogin(id);
             connection.close();
-            if(v.id_vis.equals("null")) {
-                throw new Exception("Visite inexistante");
+            if(u.login.equals("null")) {
+                throw new Exception("Chamis inexistant");
             } else {
-                return v;
+                return u;
             }
         } catch (Exception e) {
             response.setStatus(404);
@@ -69,18 +69,18 @@ public class VisiteCRUD {
     }
 
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
-    //Renvoyer une erreur 412 si l'identifiant de Visite dans l'URL n'est pas le même que celui de Visite dans le corp de la requête.
-    @PostMapping("/{visiteId}")
-    Visite create(@PathVariable(value="visiteId") String id, @RequestBody Visite v, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
+    @PostMapping("/{chamisId}")
+    Chamis create(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(v.id_vis.equals(id)) {
-                VisiteDAO visiteDAO = new VisiteDAO(connection);
-                Visite vNew = visiteDAO.readWithId(id);
-                if(vNew.id_vis == null) {
-                    visiteDAO.create(v);
-                    vNew = visiteDAO.readWithId(id);
+            if(u.login.equals(id)) {
+                ChamisDAO chamisDAO = new ChamisDAO(connection);
+                Chamis uNew = chamisDAO.readWithLogin(id);
+                if(uNew.login == null) {
+                    chamisDAO.create(u);
+                    uNew = chamisDAO.readWithLogin(id);
                     connection.close();
-                    return vNew;
+                    return uNew;
                 } else {
                     throw new Exception("ERROR403");
                 }
@@ -99,20 +99,20 @@ public class VisiteCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    //Renvoyer une erreur 412 si l'identifiant de Visite dans l'URL n'est pas le même que celui de Visite dans le corp de la requête.
-    @PutMapping("/{visiteId}") 
-    Visite update(@PathVariable(value="visiteId") String id, @RequestBody Visite v, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
+    @PutMapping("/{chamisId}") 
+    Chamis update(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(v.id_vis.equals(id)) {
-                VisiteDAO visiteDAO = new VisiteDAO(connection);
-                Visite vNew = visiteDAO.readWithId(id);
-                if(vNew.id_vis == null) {
+            if(u.login.equals(id)) {
+                ChamisDAO chamisDAO = new ChamisDAO(connection);
+                Chamis uNew = chamisDAO.readWithLogin(id);
+                if(uNew.login == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    visiteDAO.update(v);
-                    vNew = visiteDAO.readWithId(id);
+                    chamisDAO.update(u);
+                    uNew = chamisDAO.readWithLogin(id);
                     connection.close();
-                    return vNew;
+                    return uNew;
                 }
             } else {
                 throw new Exception("ERROR412");
@@ -129,15 +129,15 @@ public class VisiteCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    @DeleteMapping("/{visiteId}")
-    void delete(@PathVariable(value="visiteId") String id, HttpServletResponse response) {
+    @DeleteMapping("/{chamisId}")
+    void delete(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-                VisiteDAO visiteDAO = new VisiteDAO(connection);
-                Visite vOld = visiteDAO.readWithId(id);
-                if(vOld.id_vis == null) {
+                ChamisDAO chamisDAO = new ChamisDAO(connection);
+                Chamis uOld = chamisDAO.readWithLogin(id);
+                if(uOld.login == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    visiteDAO.delete(vOld);
+                    chamisDAO.delete(uOld);
                     connection.close();
                 }
         } catch (Exception e) {

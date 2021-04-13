@@ -1,4 +1,4 @@
-package crud;
+package com.example;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import dao.MotClefDAO;
-import com.example.DbConnection;
-import com.example.RestServer;
+//import com.example.DbConnection;
+//import com.example.RestServer;
 import classes.MotClef;
 
 @RestController

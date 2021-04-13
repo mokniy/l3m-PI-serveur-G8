@@ -1,4 +1,4 @@
-package crud;
+package com.example;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dao.ArretDAO;
-import com.example.DbConnection;
-import com.example.RestServer;
-import classes.Arret;
+import dao.VisiteDAO;
+//import com.example.DbConnection;
+//import com.example.RestServer;
+import classes.Visite;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/arret") 
-public class ArretCRUD {
+@RequestMapping("/api/visite") 
+public class VisiteCRUD {
 
     @Autowired
     private DataSource dataSource;
     
     @GetMapping("/")
-    ArrayList<Arret> allArret(HttpServletResponse response) {
+    ArrayList<Visite> allVisite(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            ArretDAO arret = new ArretDAO(connection);
-            ArrayList<Arret> L = arret.readAllArret();
+            VisiteDAO visiteDAO = new VisiteDAO(connection);
+            ArrayList<Visite> L = visiteDAO.readAllVisite();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -45,16 +45,16 @@ public class ArretCRUD {
         }
     }
 
-    @GetMapping("/{arretId}")
-    Arret read(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {
+    @GetMapping("/{visiteId}")
+    Visite read(@PathVariable(value="visiteId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            ArretDAO arretDAO = new ArretDAO(connection);
-            Arret a = arretDAO.readWithId_arr(id_arr);
+            VisiteDAO visiteDAO = new VisiteDAO(connection);
+            Visite v = visiteDAO.readWithId(id);
             connection.close();
-            if(a.id_arr.equals("null")) {
-                throw new Exception("Arret inexistant");
+            if(v.id_vis.equals("null")) {
+                throw new Exception("Visite inexistante");
             } else {
-                return a;
+                return v;
             }
         } catch (Exception e) {
             response.setStatus(404);
@@ -69,18 +69,18 @@ public class ArretCRUD {
     }
 
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
-    //Renvoyer une erreur 412 si l'identifiant de l'arret dans l'URL n'est pas le même que celui de l'arret dans le corp de la requête.
-    @PostMapping("/{arretId}")
-    Arret create(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant de Visite dans l'URL n'est pas le même que celui de Visite dans le corp de la requête.
+    @PostMapping("/{visiteId}")
+    Visite create(@PathVariable(value="visiteId") String id, @RequestBody Visite v, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(a.id_arr.equals(id_arr)) {
-                ArretDAO arretDAO = new ArretDAO(connection);
-                Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.id_arr == null) {
-                    arretDAO.create(a);
-                    aNew = arretDAO.readWithId_arr(id_arr);
+            if(v.id_vis.equals(id)) {
+                VisiteDAO visiteDAO = new VisiteDAO(connection);
+                Visite vNew = visiteDAO.readWithId(id);
+                if(vNew.id_vis == null) {
+                    visiteDAO.create(v);
+                    vNew = visiteDAO.readWithId(id);
                     connection.close();
-                    return aNew;
+                    return vNew;
                 } else {
                     throw new Exception("ERROR403");
                 }
@@ -99,20 +99,20 @@ public class ArretCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    //Renvoyer une erreur 412 si l'identifiant du Arret dans l'URL n'est pas le même que celui de l'arret dans le corp de la requête.
-    @PutMapping("/{arretId}") 
-    Arret update(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant de Visite dans l'URL n'est pas le même que celui de Visite dans le corp de la requête.
+    @PutMapping("/{visiteId}") 
+    Visite update(@PathVariable(value="visiteId") String id, @RequestBody Visite v, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(a.id_arr.equals(id_arr)) {
-                ArretDAO arretDAO = new ArretDAO(connection);
-                Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.id_arr == null) {
+            if(v.id_vis.equals(id)) {
+                VisiteDAO visiteDAO = new VisiteDAO(connection);
+                Visite vNew = visiteDAO.readWithId(id);
+                if(vNew.id_vis == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    arretDAO.update(a);
-                    aNew = arretDAO.readWithId_arr(id_arr);
+                    visiteDAO.update(v);
+                    vNew = visiteDAO.readWithId(id);
                     connection.close();
-                    return aNew;
+                    return vNew;
                 }
             } else {
                 throw new Exception("ERROR412");
@@ -128,16 +128,16 @@ public class ArretCRUD {
         }
     }
 
-    //Renvoyer une erreur 404 si l'identifiant de l'arret ne correspond pas à un arret dans la base.
-    @DeleteMapping("/{arretId}")
-    void delete(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {
+    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
+    @DeleteMapping("/{visiteId}")
+    void delete(@PathVariable(value="visiteId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-                ArretDAO arretDAO = new ArretDAO(connection);
-                Arret aOld = arretDAO.readWithId_arr(id_arr);
-                if(aOld.id_arr == null) {
+                VisiteDAO visiteDAO = new VisiteDAO(connection);
+                Visite vOld = visiteDAO.readWithId(id);
+                if(vOld.id_vis == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    arretDAO.delete(aOld);
+                    visiteDAO.delete(vOld);
                     connection.close();
                 }
         } catch (Exception e) {

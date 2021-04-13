@@ -1,4 +1,4 @@
-package crud;
+package com.example;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import dao.ChercherDAO;
-import com.example.DbConnection;
-import com.example.RestServer;
+//import com.example.DbConnection;
+//import com.example.RestServer;
 import classes.Chercher;
 
 @RestController
@@ -45,7 +45,7 @@ public class ChercherCRUD {
         }
     }
 
-    @GetMapping("/withDefi:{defiId}")
+    @GetMapping("/withDefi/{defiId}")
     Chercher read(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
@@ -98,7 +98,7 @@ public class ChercherCRUD {
 
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Defi dans l'URL n'est pas le même que celui du Defi dans le corp de la requête.
-    @PostMapping("/{defiId}${mcId}")
+    @PostMapping("/{defiId}&{mcId}")
     Chercher create(@PathVariable(value="defiId") String id1, @PathVariable(value="mcId") String id2, @RequestBody Chercher ch, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             if(ch.id_defi.equals(id1)) {
@@ -133,7 +133,7 @@ public class ChercherCRUD {
     
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    @DeleteMapping("/{defiId}${mcId}")
+    @DeleteMapping("/{defiId}&{mcId}")
     void delete(@PathVariable(value="defiId") String id1, @PathVariable(value="mcId") String id2, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
                 ChercherDAO chercherDAO = new ChercherDAO(connection);

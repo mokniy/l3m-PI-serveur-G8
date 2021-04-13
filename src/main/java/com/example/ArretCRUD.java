@@ -1,4 +1,4 @@
-package crud;
+package com.example;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dao.DefisDAO;
-import com.example.DbConnection;
-import com.example.RestServer;
-import classes.Defis;
+import dao.ArretDAO;
+//import com.example.DbConnection;
+//import com.example.RestServer;
+import classes.Arret;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/defis") 
-public class DefisCRUD {
+@RequestMapping("/api/arret") 
+public class ArretCRUD {
 
     @Autowired
     private DataSource dataSource;
     
     @GetMapping("/")
-    ArrayList<Defis> allDefis(HttpServletResponse response) {
+    ArrayList<Arret> allArret(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            DefisDAO defis = new DefisDAO(connection);
-            ArrayList<Defis> L = defis.readAllDefis();
+            ArretDAO arret = new ArretDAO(connection);
+            ArrayList<Arret> L = arret.readAllArret();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -45,16 +45,16 @@ public class DefisCRUD {
         }
     }
 
-    @GetMapping("/{defiId}")
-    Defis read(@PathVariable(value="defiId") String id, HttpServletResponse response) {
+    @GetMapping("/{arretId}")
+    Arret read(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            DefisDAO defisDAO = new DefisDAO(connection);
-            Defis d = defisDAO.readWithId(id);
+            ArretDAO arretDAO = new ArretDAO(connection);
+            Arret a = arretDAO.readWithId_arr(id_arr);
             connection.close();
-            if(d.id.equals("null")) {
-                throw new Exception("Defi inexistant");
+            if(a.id_arr.equals("null")) {
+                throw new Exception("Arret inexistant");
             } else {
-                return d;
+                return a;
             }
         } catch (Exception e) {
             response.setStatus(404);
@@ -69,18 +69,18 @@ public class DefisCRUD {
     }
 
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
-    //Renvoyer une erreur 412 si l'identifiant du Defi dans l'URL n'est pas le même que celui du Defi dans le corp de la requête.
-    @PostMapping("/{defiId}")
-    Defis create(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant de l'arret dans l'URL n'est pas le même que celui de l'arret dans le corp de la requête.
+    @PostMapping("/{arretId}")
+    Arret create(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(d.id.equals(id)) {
-                DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dNew = defisDAO.readWithId(id);
-                if(dNew.id == null) {
-                    defisDAO.create(d);
-                    dNew = defisDAO.readWithId(id);
+            if(a.id_arr.equals(id_arr)) {
+                ArretDAO arretDAO = new ArretDAO(connection);
+                Arret aNew = arretDAO.readWithId_arr(id_arr);
+                if(aNew.id_arr == null) {
+                    arretDAO.create(a);
+                    aNew = arretDAO.readWithId_arr(id_arr);
                     connection.close();
-                    return dNew;
+                    return aNew;
                 } else {
                     throw new Exception("ERROR403");
                 }
@@ -99,20 +99,20 @@ public class DefisCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    //Renvoyer une erreur 412 si l'identifiant du Defis dans l'URL n'est pas le même que celui du Defis dans le corp de la requête.
-    @PutMapping("/{defiId}") 
-    Defis update(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Arret dans l'URL n'est pas le même que celui de l'arret dans le corp de la requête.
+    @PutMapping("/{arretId}") 
+    Arret update(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(d.id.equals(id)) {
-                DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dNew = defisDAO.readWithId(id);
-                if(dNew.id == null) {
+            if(a.id_arr.equals(id_arr)) {
+                ArretDAO arretDAO = new ArretDAO(connection);
+                Arret aNew = arretDAO.readWithId_arr(id_arr);
+                if(aNew.id_arr == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    defisDAO.update(d);
-                    dNew = defisDAO.readWithId(id);
+                    arretDAO.update(a);
+                    aNew = arretDAO.readWithId_arr(id_arr);
                     connection.close();
-                    return dNew;
+                    return aNew;
                 }
             } else {
                 throw new Exception("ERROR412");
@@ -128,16 +128,16 @@ public class DefisCRUD {
         }
     }
 
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    @DeleteMapping("/{defiId}")
-    void delete(@PathVariable(value="defiId") String id, HttpServletResponse response) {
+    //Renvoyer une erreur 404 si l'identifiant de l'arret ne correspond pas à un arret dans la base.
+    @DeleteMapping("/{arretId}")
+    void delete(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-                DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dOld = defisDAO.readWithId(id);
-                if(dOld.id == null) {
+                ArretDAO arretDAO = new ArretDAO(connection);
+                Arret aOld = arretDAO.readWithId_arr(id_arr);
+                if(aOld.id_arr == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    defisDAO.delete(dOld);
+                    arretDAO.delete(aOld);
                     connection.close();
                 }
         } catch (Exception e) {

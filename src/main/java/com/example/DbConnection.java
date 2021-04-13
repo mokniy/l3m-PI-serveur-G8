@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class DbConnection {
     @Value("${spring.datasource.url}")

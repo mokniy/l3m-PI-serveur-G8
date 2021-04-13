@@ -1,4 +1,4 @@
-package crud;
+package com.example;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dao.ChamisDAO;
-import com.example.DbConnection;
-import com.example.RestServer;
-import classes.Chamis;
+import dao.DefisDAO;
+//import com.example.DbConnection;
+//import com.example.RestServer;
+import classes.Defis;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/chamis") 
-public class ChamisCRUD {
+@RequestMapping("/api/defis") 
+public class DefisCRUD {
 
     @Autowired
     private DataSource dataSource;
     
     @GetMapping("/")
-    ArrayList<Chamis> allChamis(HttpServletResponse response) {
+    ArrayList<Defis> allDefis(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            ChamisDAO chamis = new ChamisDAO(connection);
-            ArrayList<Chamis> L = chamis.readAllChamis();
+            DefisDAO defis = new DefisDAO(connection);
+            ArrayList<Defis> L = defis.readAllDefis();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -45,16 +45,16 @@ public class ChamisCRUD {
         }
     }
 
-    @GetMapping("/{chamisId}")
-    Chamis read(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
+    @GetMapping("/{defiId}")
+    Defis read(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            ChamisDAO chamisDAO = new ChamisDAO(connection);
-            Chamis u = chamisDAO.readWithLogin(id);
+            DefisDAO defisDAO = new DefisDAO(connection);
+            Defis d = defisDAO.readWithId(id);
             connection.close();
-            if(u.login.equals("null")) {
-                throw new Exception("Chamis inexistant");
+            if(d.id.equals("null")) {
+                throw new Exception("Defi inexistant");
             } else {
-                return u;
+                return d;
             }
         } catch (Exception e) {
             response.setStatus(404);
@@ -69,18 +69,18 @@ public class ChamisCRUD {
     }
 
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
-    //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
-    @PostMapping("/{chamisId}")
-    Chamis create(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Defi dans l'URL n'est pas le même que celui du Defi dans le corp de la requête.
+    @PostMapping("/{defiId}")
+    Defis create(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(u.login.equals(id)) {
-                ChamisDAO chamisDAO = new ChamisDAO(connection);
-                Chamis uNew = chamisDAO.readWithLogin(id);
-                if(uNew.login == null) {
-                    chamisDAO.create(u);
-                    uNew = chamisDAO.readWithLogin(id);
+            if(d.id.equals(id)) {
+                DefisDAO defisDAO = new DefisDAO(connection);
+                Defis dNew = defisDAO.readWithId(id);
+                if(dNew.id == null) {
+                    defisDAO.create(d);
+                    dNew = defisDAO.readWithId(id);
                     connection.close();
-                    return uNew;
+                    return dNew;
                 } else {
                     throw new Exception("ERROR403");
                 }
@@ -99,20 +99,20 @@ public class ChamisCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
-    @PutMapping("/{chamisId}") 
-    Chamis update(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Defis dans l'URL n'est pas le même que celui du Defis dans le corp de la requête.
+    @PutMapping("/{defiId}") 
+    Defis update(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(u.login.equals(id)) {
-                ChamisDAO chamisDAO = new ChamisDAO(connection);
-                Chamis uNew = chamisDAO.readWithLogin(id);
-                if(uNew.login == null) {
+            if(d.id.equals(id)) {
+                DefisDAO defisDAO = new DefisDAO(connection);
+                Defis dNew = defisDAO.readWithId(id);
+                if(dNew.id == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    chamisDAO.update(u);
-                    uNew = chamisDAO.readWithLogin(id);
+                    defisDAO.update(d);
+                    dNew = defisDAO.readWithId(id);
                     connection.close();
-                    return uNew;
+                    return dNew;
                 }
             } else {
                 throw new Exception("ERROR412");
@@ -129,15 +129,15 @@ public class ChamisCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    @DeleteMapping("/{chamisId}")
-    void delete(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
+    @DeleteMapping("/{defiId}")
+    void delete(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-                ChamisDAO chamisDAO = new ChamisDAO(connection);
-                Chamis uOld = chamisDAO.readWithLogin(id);
-                if(uOld.login == null) {
+                DefisDAO defisDAO = new DefisDAO(connection);
+                Defis dOld = defisDAO.readWithId(id);
+                if(dOld.id == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    chamisDAO.delete(uOld);
+                    defisDAO.delete(dOld);
                     connection.close();
                 }
         } catch (Exception e) {
