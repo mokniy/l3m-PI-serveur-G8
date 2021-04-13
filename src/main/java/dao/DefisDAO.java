@@ -93,9 +93,9 @@ public class DefisDAO extends DAO<Defis> {
             while (rs.next()) {
                 Defis d = new Defis();
                 d.id = rs.getString("id");
+                d.titre   = rs.getString("titre");
                 d.dateDeCreation = rs.getString("dateDeCreation");
                 d.description = rs.getString("description");
-                d.id = rs.getString("titre");
                 d.auteur = rs.getString("auteur");
                 L.add(d);
             }
