@@ -106,7 +106,7 @@ public class DefisCRUD {
                 if(dNew.id == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    defisDAO.update(u);
+                    defisDAO.update(d);
                     dNew = defisDAO.readWithId(id);
                     connection.close();
                     return dNew;
@@ -130,11 +130,11 @@ public class DefisCRUD {
     void delete(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
                 DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dOld = DefisDAO.readWithId(id);
+                Defis dOld = defisDAO.readWithId(id);
                 if(dOld.id == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    DefisDAO.delete(dOld);
+                    defisDAO.delete(dOld);
                     connection.close();
                 }
         } catch (Exception e) {
