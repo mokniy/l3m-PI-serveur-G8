@@ -1,4 +1,4 @@
-package com.example;
+package crud;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,21 +14,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dao.DefisDAO;
+import dao.MotClefDAO;
+import com.example.DbConnection;
+import com.example.RestServer;
+import classes.MotClef;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/defis") 
-public class DefisCRUD {
+@RequestMapping("/api/mot_clef") 
+public class MotClefCRUD {
 
     @Autowired
     private DataSource dataSource;
     
     @GetMapping("/")
-    ArrayList<Defis> allDefis(HttpServletResponse response) {
+    ArrayList<MotClef> allMotClefs(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            DefisDAO defis = new DefisDAO(connection);
-            ArrayList<Defis> L = defis.readAllDefis();
+            MotClefDAO motClefs = new MotClefDAO(connection);
+            ArrayList<MotClef> L = motClefs.readAllMotClefs();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -42,16 +45,16 @@ public class DefisCRUD {
         }
     }
 
-    @GetMapping("/{defiId}")
-    Defis read(@PathVariable(value="defiId") String id, HttpServletResponse response) {
+    @GetMapping("/{mot_clefId}")
+    MotClef read(@PathVariable(value="mot_clefId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            DefisDAO defisDAO = new DefisDAO(connection);
-            Defis d = defisDAO.readWithId(id);
+            MotClefDAO motClefsDAO = new MotClefDAO(connection);
+            MotClef mc = motClefsDAO.readWithId(id);
             connection.close();
-            if(d.id.equals("null")) {
-                throw new Exception("Defi inexistant");
+            if(mc.id_mc.equals("null")) {
+                throw new Exception("Mot Clef inexistant");
             } else {
-                return d;
+                return mc;
             }
         } catch (Exception e) {
             response.setStatus(404);
@@ -66,18 +69,18 @@ public class DefisCRUD {
     }
 
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
-    //Renvoyer une erreur 412 si l'identifiant du Defi dans l'URL n'est pas le même que celui du Defi dans le corp de la requête.
-    @PostMapping("/{defiId}")
-    Defis create(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
+    //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
+    @PostMapping("/{mot_clefId}")
+    MotClef create(@PathVariable(value="mot_clefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(d.id.equals(id)) {
-                DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dNew = defisDAO.readWithId(id);
-                if(dNew.id == null) {
-                    defisDAO.create(d);
-                    dNew = defisDAO.readWithId(id);
+            if(mc.id_mc.equals(id)) {
+                MotClefDAO motClefsDAO = new MotClefDAO(connection);
+                MotClef mcNew = motClefsDAO.readWithId(id);
+                if(mcNew.id_mc == null) {
+                    motClefsDAO.create(mc);
+                    mcNew = motClefsDAO.readWithId(id);
                     connection.close();
-                    return dNew;
+                    return mcNew;
                 } else {
                     throw new Exception("ERROR403");
                 }
@@ -97,19 +100,19 @@ public class DefisCRUD {
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
     //Renvoyer une erreur 412 si l'identifiant du Defis dans l'URL n'est pas le même que celui du Defis dans le corp de la requête.
-    @PutMapping("/{defiId}") 
-    Defis update(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
+    @PutMapping("/{mot_clefId}") 
+    MotClef update(@PathVariable(value="mot_clefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(d.id.equals(id)) {
-                DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dNew = defisDAO.readWithId(id);
-                if(dNew.id == null) {
+            if(mc.id_mc.equals(id)) {
+                MotClefDAO motClefsDAO = new MotClefDAO(connection);
+                MotClef mcNew = motClefsDAO.readWithId(id);
+                if(mcNew.id_mc == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    defisDAO.update(d);
-                    dNew = defisDAO.readWithId(id);
+                    motClefsDAO.update(mc);
+                    mcNew = motClefsDAO.readWithId(id);
                     connection.close();
-                    return dNew;
+                    return mcNew;
                 }
             } else {
                 throw new Exception("ERROR412");
@@ -126,17 +129,17 @@ public class DefisCRUD {
     }
 
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    @DeleteMapping("/{defiId}")
-    void delete(@PathVariable(value="defiId") String id, HttpServletResponse response) {
+    @DeleteMapping("/{mot_clefId}")
+    void delete(@PathVariable(value="mot_clefId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-                DefisDAO defisDAO = new DefisDAO(connection);
-                Defis dOld = defisDAO.readWithId(id);
-                if(dOld.id == null) {
-                    throw new Exception("ERROR404");
-                } else {
-                    defisDAO.delete(dOld);
-                    connection.close();
-                }
+            MotClefDAO motClefsDAO = new MotClefDAO(connection);
+            MotClef mcOld = motClefsDAO.readWithId(id);
+            if(mcOld.id_mc == null) {
+                throw new Exception("ERROR404");
+            } else {
+                motClefsDAO.delete(mcOld);
+                connection.close();
+            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
             if(e.getMessage().equals("ERROR404")) {

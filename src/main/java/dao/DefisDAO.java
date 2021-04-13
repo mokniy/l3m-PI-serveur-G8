@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.example.Defis;
+import classes.Defis;
 
 public class DefisDAO extends DAO<Defis> {
 

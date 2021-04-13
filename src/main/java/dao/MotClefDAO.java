@@ -6,19 +6,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import classes.Chamis;
+import classes.MotClef;
 
-public class ChamisDAO extends DAO<Chamis> {
+public class MotClefDAO extends DAO<MotClef> {
 
-    public ChamisDAO(Connection conn) {
+    public MotClefDAO(Connection conn) {
         super(conn);
     }
 
     @Override
-    public boolean create(Chamis obj){
+    public boolean create(MotClef obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO chamis VALUES ('"+obj.login+"',"+obj.age+")");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO mot_clef VALUES ('"+obj.id_mc+"','"+obj.mot_mc+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -30,15 +30,15 @@ public class ChamisDAO extends DAO<Chamis> {
     }
 
     @Override
-    public Chamis read(int id) {
+    public MotClef read(int id) {
         return null;
     }
 
     @Override
-    public boolean update(Chamis obj) {
+    public boolean update(MotClef obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+" where login = '"+obj.login+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE mot_clef SET id_mc = '"+obj.id_mc+"', mot_mc = '"+obj.mot_mc+"' WHERE id_mc = '"+obj.id_mc+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,10 +51,10 @@ public class ChamisDAO extends DAO<Chamis> {
     }
 
     @Override
-    public boolean delete(Chamis obj) {
+    public boolean delete(MotClef obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from chamis where login ='"+obj.login+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from mot_clef where id_mc ='"+obj.id_mc+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,32 +66,32 @@ public class ChamisDAO extends DAO<Chamis> {
         }
     }
 
-    public Chamis readWithLogin(String id) {
-        Chamis u = new Chamis();
+    public MotClef readWithId(String id) {
+        MotClef mc = new MotClef();
         try {
         Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM chamis WHERE login = '"+id+"'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef WHERE id = '"+id+"'");
         if (rs.next()) {
-            u.login = rs.getString("login");
-            u.age   = rs.getInt("age");
+            mc.id_mc = rs.getString("id_mc");
+            mc.mot_mc  = rs.getString("mot_mc");
         }
         stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return u;
+        return mc;
     }
     
-    public ArrayList<Chamis> readAllChamis() {
-        ArrayList<Chamis> L = new ArrayList<Chamis>();
+    public ArrayList<MotClef> readAllMotClefs() {
+        ArrayList<MotClef> L = new ArrayList<MotClef>();
         try {
             Statement stmt = connect.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM chamis");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef");
             while (rs.next()) {
-                Chamis u = new Chamis();
-                u.login = rs.getString("login");
-                u.age   = rs.getInt("age");
-                L.add(u);
+                MotClef mc = new MotClef();
+                mc.id_mc = rs.getString("id_mc");
+                mc.mot_mc  = rs.getString("mot_mc");
+                L.add(mc);
             }
             stmt.close();
             connect.close();
