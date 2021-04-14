@@ -27,6 +27,7 @@ public class DefisCRUD {
     @Autowired
     private DataSource dataSource;
     
+    /* Chercher tous les defis de la base */
     @GetMapping("/")
     ArrayList<Defis> allDefis(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -45,6 +46,7 @@ public class DefisCRUD {
         }
     }
 
+    /* Chercher le defi dont l'id est donne dans le path */
     @GetMapping("/{defiId}")
     Defis read(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -68,6 +70,7 @@ public class DefisCRUD {
         }
     }
 
+    /* Creer un defi */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Defi dans l'URL n'est pas le même que celui du Defi dans le corp de la requête.
     @PostMapping("/{defiId}")
@@ -98,8 +101,9 @@ public class DefisCRUD {
         }
     }
 
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    //Renvoyer une erreur 412 si l'identifiant du Defis dans l'URL n'est pas le même que celui du Defis dans le corp de la requête.
+    /* Update le defi dont l'id est donne dans le path */
+    //Renvoyer une erreur 404 si l'identifiant du defi ne correspond pas à un defi dans la base.
+    //Renvoyer une erreur 412 si l'identifiant du defi dans l'URL n'est pas le même que celui du defi dans le corps de la requête.
     @PutMapping("/{defiId}") 
     Defis update(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -128,7 +132,8 @@ public class DefisCRUD {
         }
     }
 
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
+    /* delete le defi dont l'id est donne dans le path */
+    //Renvoyer une erreur 404 si l'identifiant du defi ne correspond pas à un defi dans la base.
     @DeleteMapping("/{defiId}")
     void delete(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {

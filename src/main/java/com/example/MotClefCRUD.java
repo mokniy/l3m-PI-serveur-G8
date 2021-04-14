@@ -21,12 +21,13 @@ import classes.MotClef;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/mot_clef") 
+@RequestMapping("/api/motclef") 
 public class MotClefCRUD {
 
     @Autowired
     private DataSource dataSource;
     
+    /* ---- Cherche tous les mot_clef ---- */
     @GetMapping("/")
     ArrayList<MotClef> allMotClefs(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -45,8 +46,9 @@ public class MotClefCRUD {
         }
     }
 
-    @GetMapping("/{mot_clefId}")
-    MotClef read(@PathVariable(value="mot_clefId") String id, HttpServletResponse response) {
+    /* ---- Cherche un élément ---- */
+    @GetMapping("/{motclefId}")
+    MotClef read(@PathVariable(value="motclefId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             MotClefDAO motClefsDAO = new MotClefDAO(connection);
             MotClef mc = motClefsDAO.readWithId(id);
@@ -68,10 +70,11 @@ public class MotClefCRUD {
         }
     }
 
+    /* ---- Créé un élément ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
-    @PostMapping("/{mot_clefId}")
-    MotClef create(@PathVariable(value="mot_clefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
+    @PostMapping("/{motclefId}")
+    MotClef create(@PathVariable(value="motclefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             if(mc.id_mc.equals(id)) {
                 MotClefDAO motClefsDAO = new MotClefDAO(connection);
@@ -98,10 +101,11 @@ public class MotClefCRUD {
         }
     }
 
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    //Renvoyer une erreur 412 si l'identifiant du Defis dans l'URL n'est pas le même que celui du Defis dans le corp de la requête.
-    @PutMapping("/{mot_clefId}") 
-    MotClef update(@PathVariable(value="mot_clefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
+    /* ---- Modifie un élément ---- */
+    //Renvoyer une erreur 404 si l'identifiant du Mot clef ne correspond pas à un Mot clef dans la base.
+    //Renvoyer une erreur 412 si l'identifiant du Mot clef dans l'URL n'est pas le même que celui du Mot clef dans le corp de la requête.
+    @PutMapping("/{motclefId}") 
+    MotClef update(@PathVariable(value="motclefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             if(mc.id_mc.equals(id)) {
                 MotClefDAO motClefsDAO = new MotClefDAO(connection);
@@ -128,9 +132,10 @@ public class MotClefCRUD {
         }
     }
 
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
-    @DeleteMapping("/{mot_clefId}")
-    void delete(@PathVariable(value="mot_clefId") String id, HttpServletResponse response) {
+    /* ---- Supprime un élément ---- */
+    //Renvoyer une erreur 404 si l'identifiant du Mot clef ne correspond pas à un Mot clef dans la base.
+    @DeleteMapping("/{motclefId}")
+    void delete(@PathVariable(value="motclefId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             MotClefDAO motClefsDAO = new MotClefDAO(connection);
             MotClef mcOld = motClefsDAO.readWithId(id);

@@ -15,6 +15,7 @@ public class ArretDAO extends DAO<Arret> {
         super(conn);
     }
 
+    /* ---- Création d'un nouvel élément ---- */
     @Override
     public boolean create(Arret obj){
         int nb = 0;
@@ -35,11 +36,12 @@ public class ArretDAO extends DAO<Arret> {
         return null;
     }
 
+    /* ---- Modification d'un élément ---- */
     @Override
     public boolean update(Arret obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET nom_arr = "+obj.nom_arr+", adresse_arr = '"+obj.adresse_arr+"', gps_arr = '"+obj.gps_arr+"'  where id_arr = '"+obj.id_arr+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET id_arr = '"+obj.id_arr+"', nom_arr = '"+obj.nom_arr+"', adresse_arr = '"+obj.adresse_arr+"', gps_arr = '"+obj.gps_arr+"'  where id_arr = '"+obj.id_arr+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,6 +53,7 @@ public class ArretDAO extends DAO<Arret> {
         }
     }
 
+    /* ---- Suppression d'un élément ---- */
     @Override
     public boolean delete(Arret obj) {
         int nb = 0;
@@ -67,6 +70,7 @@ public class ArretDAO extends DAO<Arret> {
         }
     }
 
+    /* ---- Affichage de tous les éléments voulus ---- */
     public Arret readWithId_arr(String id_arr) {
         Arret a = new Arret();
         try {
@@ -85,6 +89,7 @@ public class ArretDAO extends DAO<Arret> {
         return a;
     }
     
+    /* ---- Affichage de la liste de tous les éléments ---- */
     public ArrayList<Arret> readAllArret() {
         ArrayList<Arret> L = new ArrayList<Arret>();
         try {

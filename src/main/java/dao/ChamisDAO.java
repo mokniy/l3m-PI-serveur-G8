@@ -13,7 +13,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public ChamisDAO(Connection conn) {
         super(conn);
     }
-
+    /*-------creation d'un nouveau chamis ---------------*/
     @Override
     public boolean create(Chamis obj){
         int nb = 0;
@@ -33,7 +33,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public Chamis read(int id) {
         return null;
     }
-
+    /*-------Mise à jour d'un chamis ---------------*/
     @Override
     public boolean update(Chamis obj) {
         int nb = 0;
@@ -49,7 +49,7 @@ public class ChamisDAO extends DAO<Chamis> {
             return false;
         }
     }
-
+    /*-------suppression d'un chamis ---------------*/
     @Override
     public boolean delete(Chamis obj) {
         int nb = 0;
@@ -66,6 +66,7 @@ public class ChamisDAO extends DAO<Chamis> {
         }
     }
 
+    /*------- Lecture d'un chamis selon son login ---------------*/
     public Chamis readWithLogin(String id) {
         Chamis u = new Chamis();
         try {
@@ -81,7 +82,7 @@ public class ChamisDAO extends DAO<Chamis> {
         }
         return u;
     }
-    
+    /*-------Affichage de la liste des chamis---------------*/
     public ArrayList<Chamis> readAllChamis() {
         ArrayList<Chamis> L = new ArrayList<Chamis>();
         try {

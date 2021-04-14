@@ -6,4 +6,5 @@ public class Defis {
     public String dateDeCreation;
     public String description;
     public String auteur;
+    public String arret_defi;
 }

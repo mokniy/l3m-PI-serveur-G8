@@ -14,6 +14,7 @@ public class VisiteDAO extends DAO<Visite> {
         super(conn);
     }
 
+    /* ---- Création d'une nouvelle visite ---- */
     @Override
     public boolean create(Visite obj){
         int nb = 0;
@@ -34,6 +35,7 @@ public class VisiteDAO extends DAO<Visite> {
         return null;
     }
 
+    /* ---- Update d'une visite ---- */
     @Override
     public boolean update(Visite obj) {
         int nb = 0;
@@ -50,6 +52,7 @@ public class VisiteDAO extends DAO<Visite> {
         }
     }
 
+    /* ---- Suppression d'une visite ---- */
     @Override
     public boolean delete(Visite obj) {
         int nb = 0;
@@ -66,6 +69,7 @@ public class VisiteDAO extends DAO<Visite> {
         }
     }
 
+    /* ---- Lecture d'une visite selon son id ---- */
     public Visite readWithId(String id) {
         Visite v = new Visite();
         try {
@@ -90,6 +94,7 @@ public class VisiteDAO extends DAO<Visite> {
         return v;
     }
     
+    /* ---- Lecture de toutes les visites ---- */
     public ArrayList<Visite> readAllVisite() {
         ArrayList<Visite> L = new ArrayList<Visite>();
         try {

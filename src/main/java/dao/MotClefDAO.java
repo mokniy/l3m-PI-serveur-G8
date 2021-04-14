@@ -14,6 +14,7 @@ public class MotClefDAO extends DAO<MotClef> {
         super(conn);
     }
 
+    /* ---- Création d'un nouveau mot clef ---- */
     @Override
     public boolean create(MotClef obj){
         int nb = 0;
@@ -34,6 +35,7 @@ public class MotClefDAO extends DAO<MotClef> {
         return null;
     }
 
+    /* ---- Update d'un mot cle ---- */
     @Override
     public boolean update(MotClef obj) {
         int nb = 0;
@@ -50,6 +52,7 @@ public class MotClefDAO extends DAO<MotClef> {
         }
     }
 
+    /* ---- Suppression d'un mot clef ---- */
     @Override
     public boolean delete(MotClef obj) {
         int nb = 0;
@@ -66,11 +69,12 @@ public class MotClefDAO extends DAO<MotClef> {
         }
     }
 
+    /* ---- Lecture d'un mot clef selon son id ---- */
     public MotClef readWithId(String id) {
         MotClef mc = new MotClef();
         try {
         Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef WHERE id = '"+id+"'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef WHERE id_mc = '"+id+"'");
         if (rs.next()) {
             mc.id_mc = rs.getString("id_mc");
             mc.mot_mc  = rs.getString("mot_mc");
@@ -82,6 +86,7 @@ public class MotClefDAO extends DAO<MotClef> {
         return mc;
     }
     
+    /* ---- Lecture de tous les mots clefs ---- */
     public ArrayList<MotClef> readAllMotClefs() {
         ArrayList<MotClef> L = new ArrayList<MotClef>();
         try {

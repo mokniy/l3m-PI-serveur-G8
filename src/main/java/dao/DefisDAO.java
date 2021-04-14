@@ -14,11 +14,12 @@ public class DefisDAO extends DAO<Defis> {
         super(conn);
     }
 
+    /* ---- Création d'un nouveau defi ---- */
     @Override
     public boolean create(Defis obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.id+"','"+obj.titre+"','"+obj.dateDeCreation+"','"+obj.description+"','"+obj.auteur+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.id+"','"+obj.titre+"','"+obj.dateDeCreation+"','"+obj.description+"','"+obj.auteur+"','"+obj.arret_defi+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -34,11 +35,12 @@ public class DefisDAO extends DAO<Defis> {
         return null;
     }
 
+    /* ---- Modification d'un defi ---- */
     @Override
     public boolean update(Defis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE defi SET titre = '"+obj.titre+"', dateDeCreation = '"+obj.dateDeCreation+"', description = '"+obj.description+"', auteur = '"+obj.auteur+"' WHERE id = '"+obj.id+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE defi SET titre = '"+obj.titre+"', dateDeCreation = '"+obj.dateDeCreation+"', description = '"+obj.description+"', auteur = '"+obj.auteur+"', arret_defi = '"+obj.arret_defi+"' WHERE id = '"+obj.id+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,6 +52,7 @@ public class DefisDAO extends DAO<Defis> {
         }
     }
 
+    /* ---- Suppression d'un defi ---- */
     @Override
     public boolean delete(Defis obj) {
         int nb = 0;
@@ -66,6 +69,7 @@ public class DefisDAO extends DAO<Defis> {
         }
     }
 
+    /* ---- Affichage de tous les defis voulus ---- */
     public Defis readWithId(String id) {
         Defis d = new Defis();
         try {
@@ -77,6 +81,7 @@ public class DefisDAO extends DAO<Defis> {
             d.dateDeCreation = rs.getString("dateDeCreation");
             d.description   = rs.getString("description");
             d.auteur   = rs.getString("auteur");
+            d.arret_defi = rs.getString("arret_defi");
         }
         stmt.close();
         } catch (SQLException e) {
@@ -85,6 +90,7 @@ public class DefisDAO extends DAO<Defis> {
         return d;
     }
     
+    /* ---- Affichage de la liste de tous les defis ---- */
     public ArrayList<Defis> readAllDefis() {
         ArrayList<Defis> L = new ArrayList<Defis>();
         try {
@@ -97,6 +103,7 @@ public class DefisDAO extends DAO<Defis> {
                 d.dateDeCreation = rs.getString("dateDeCreation");
                 d.description = rs.getString("description");
                 d.auteur = rs.getString("auteur");
+                d.arret_defi = rs.getString("arret_defi");
                 L.add(d);
             }
             stmt.close();

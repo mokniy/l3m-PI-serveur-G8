@@ -27,6 +27,7 @@ public class ChercherCRUD {
     @Autowired
     private DataSource dataSource;
     
+    /* ---- Rechercher toutes les données de la base ---- */
     @GetMapping("/")
     ArrayList<Chercher> allChercher(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -44,9 +45,29 @@ public class ChercherCRUD {
             return null;
         }
     }
+    
+    /* ---- Rechercher la jonction d'un defi avec un mot_clef ---- */
+    @GetMapping("/{defiId}&{mcId}")
+    Chercher ChercherOne(@PathVariable(value="defiId") String id1,@PathVariable(value="mcId") String id2,HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            ChercherDAO chercherDAO = new ChercherDAO(connection);
+            Chercher L = chercherDAO.readWithTwoId(id1,id2);
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 
+    /* ---- Rechercher par defi, les différents mot_clef qu'il utilise ----*/
     @GetMapping("/withDefi/{defiId}")
-    Chercher read(@PathVariable(value="defiId") String id, HttpServletResponse response) {
+    Chercher readDefiId(@PathVariable(value="defiId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
             Chercher ch = chercherDAO.readWithId_defi(id);
@@ -68,10 +89,9 @@ public class ChercherCRUD {
         }
     }
 
-    /* ---- Rechercher par mot-clef, les différents defis qui l'utilise ----
-
-    @GetMapping("/withMc:{mcId}")
-    Chercher read(@PathVariable(value="mcId") String id, HttpServletResponse response) {
+    /* ---- Rechercher par mot-clef, les différents defis qui l'utilise ----*/
+    @GetMapping("/withMc/{mcId}")
+    Chercher readMcId(@PathVariable(value="mcId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
             Chercher ch = chercherDAO.readWithId_mc(id);
@@ -91,13 +111,14 @@ public class ChercherCRUD {
             System.err.println(e.getMessage());
             return null;
         }
-    }*/
+    }
 
 
 
 
+    /* ---- Créer une donnée ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
-    //Renvoyer une erreur 412 si l'identifiant du Defi dans l'URL n'est pas le même que celui du Defi dans le corp de la requête.
+    //Renvoyer une erreur 412 si l'identifiant de chercher dans l'URL n'est pas le même que celui de chercher dans le corp de la requête.
     @PostMapping("/{defiId}&{mcId}")
     Chercher create(@PathVariable(value="defiId") String id1, @PathVariable(value="mcId") String id2, @RequestBody Chercher ch, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -132,7 +153,8 @@ public class ChercherCRUD {
 
     
 
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
+    /* ---- Supprime une donnée ---- */
+    //Renvoyer une erreur 404 si l'identifiant de chercher ne correspond pas à un chercher dans la base.
     @DeleteMapping("/{defiId}&{mcId}")
     void delete(@PathVariable(value="defiId") String id1, @PathVariable(value="mcId") String id2, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {

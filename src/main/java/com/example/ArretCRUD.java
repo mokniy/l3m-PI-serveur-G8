@@ -27,6 +27,7 @@ public class ArretCRUD {
     @Autowired
     private DataSource dataSource;
     
+    /* Chercher tous les arrets de la base */
     @GetMapping("/")
     ArrayList<Arret> allArret(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -45,6 +46,7 @@ public class ArretCRUD {
         }
     }
 
+    /* cherche l'arret avec l'id donne dans le path */
     @GetMapping("/{arretId}")
     Arret read(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -68,6 +70,7 @@ public class ArretCRUD {
         }
     }
 
+    /* Cree un arret */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant de l'arret dans l'URL n'est pas le même que celui de l'arret dans le corp de la requête.
     @PostMapping("/{arretId}")
@@ -98,6 +101,7 @@ public class ArretCRUD {
         }
     }
 
+    /* Update l'arret donne dans le path */
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
     //Renvoyer une erreur 412 si l'identifiant du Arret dans l'URL n'est pas le même que celui de l'arret dans le corp de la requête.
     @PutMapping("/{arretId}") 
@@ -128,6 +132,7 @@ public class ArretCRUD {
         }
     }
 
+    /* delete l'arret ou l'id est donne dans le path' */
     //Renvoyer une erreur 404 si l'identifiant de l'arret ne correspond pas à un arret dans la base.
     @DeleteMapping("/{arretId}")
     void delete(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {

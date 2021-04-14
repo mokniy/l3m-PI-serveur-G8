@@ -26,7 +26,7 @@ public class ChamisCRUD {
 
     @Autowired
     private DataSource dataSource;
-    
+    /* ---- Cherche tous les chamis ---- */
     @GetMapping("/")
     ArrayList<Chamis> allChamis(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -45,6 +45,7 @@ public class ChamisCRUD {
         }
     }
 
+    /* ---- Cherche l'élément voulu ---- */
     @GetMapping("/{chamisId}")
     Chamis read(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -68,6 +69,7 @@ public class ChamisCRUD {
         }
     }
 
+    /* ---- Créé un élement ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
     @PostMapping("/{chamisId}")
@@ -98,6 +100,7 @@ public class ChamisCRUD {
         }
     }
 
+    /* ---- Modifie un élément ---- */
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
     //Renvoyer une erreur 412 si l'identifiant du Chamis dans l'URL n'est pas le même que celui du Chamis dans le corp de la requête.
     @PutMapping("/{chamisId}") 
@@ -128,6 +131,7 @@ public class ChamisCRUD {
         }
     }
 
+    /* ---- Supprime un élément ---- */
     //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
     @DeleteMapping("/{chamisId}")
     void delete(@PathVariable(value="chamisId") String id, HttpServletResponse response) {

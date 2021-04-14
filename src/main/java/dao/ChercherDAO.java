@@ -14,6 +14,7 @@ public class ChercherDAO extends DAO<Chercher> {
         super(conn);
     }
 
+    /* ---- Création d'un nouvel élément ---- */
     @Override
     public boolean create(Chercher obj){
         int nb = 0;
@@ -35,6 +36,7 @@ public class ChercherDAO extends DAO<Chercher> {
     }
 
 
+    /* ---- Suppression d'un élément ---- */
     @Override
     public boolean delete(Chercher obj) {
         int nb = 0;
@@ -57,6 +59,7 @@ public class ChercherDAO extends DAO<Chercher> {
         
     }
 
+    /* ---- Affichage de tous les éléments voulus en fonction de id_defi ---- */
     public Chercher readWithId_defi(String id) {
         Chercher ch = new Chercher();
         try {
@@ -73,6 +76,7 @@ public class ChercherDAO extends DAO<Chercher> {
         return ch;
     }
 
+    /* ---- Affichage de tous les éléments voulus en fonction de id_mc---- */
     public Chercher readWithId_mc(String id) {
         Chercher ch = new Chercher();
         try {
@@ -89,6 +93,7 @@ public class ChercherDAO extends DAO<Chercher> {
         return ch;
     }
 
+    /* ---- Affichage de l'élément voulu---- */
     public Chercher readWithTwoId(String id1,String id2) {
         Chercher ch = new Chercher();
         try {
@@ -105,7 +110,7 @@ public class ChercherDAO extends DAO<Chercher> {
         return ch;
     }
 
-    
+    /* ---- Affichage de la liste de tous les éléments ---- */
     public ArrayList<Chercher> readAllChercher() {
         ArrayList<Chercher> L = new ArrayList<Chercher>();
         try {
@@ -124,4 +129,6 @@ public class ChercherDAO extends DAO<Chercher> {
         }
         return L;
     }
+
+    
 }

@@ -27,6 +27,7 @@ public class VisiteCRUD {
     @Autowired
     private DataSource dataSource;
     
+    /* Chercher toutes les visites de la base */
     @GetMapping("/")
     ArrayList<Visite> allVisite(HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -45,6 +46,7 @@ public class VisiteCRUD {
         }
     }
 
+    /* Chercher la visite dont l'id est donne dans le path */
     @GetMapping("/{visiteId}")
     Visite read(@PathVariable(value="visiteId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -68,6 +70,7 @@ public class VisiteCRUD {
         }
     }
 
+    /* Creer une visite */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant de Visite dans l'URL n'est pas le même que celui de Visite dans le corp de la requête.
     @PostMapping("/{visiteId}")
@@ -98,7 +101,8 @@ public class VisiteCRUD {
         }
     }
 
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
+    /* Update la visite dont l'id est donne dans le path */
+    //Renvoyer une erreur 404 si l'identifiant de visite ne correspond pas à une visite dans la base.
     //Renvoyer une erreur 412 si l'identifiant de Visite dans l'URL n'est pas le même que celui de Visite dans le corp de la requête.
     @PutMapping("/{visiteId}") 
     Visite update(@PathVariable(value="visiteId") String id, @RequestBody Visite v, HttpServletResponse response) {
@@ -127,8 +131,9 @@ public class VisiteCRUD {
             return null;
         }
     }
-
-    //Renvoyer une erreur 404 si l'identifiant de l'utilisateur ne correspond pas à un utilisateur dans la base.
+    
+    /* Delete la visite dont l'id est donne dans le path */
+    //Renvoyer une erreur 404 si l'identifiant de visite ne correspond pas à une visite dans la base.
     @DeleteMapping("/{visiteId}")
     void delete(@PathVariable(value="visiteId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
