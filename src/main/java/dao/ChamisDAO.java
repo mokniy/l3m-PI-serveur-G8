@@ -38,7 +38,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean update(Chamis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+",ville = "+obj.ville+", description = "+obj.age+",email = "+obj.email+"  where pseudo = '"+obj.pseudo+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+",ville = '"+obj.ville+"', description = '"+obj.age+"',email = '"+obj.email+"'  where pseudo = '"+obj.pseudo+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
