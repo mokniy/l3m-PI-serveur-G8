@@ -67,7 +67,7 @@ public class ChamisDAO extends DAO<Chamis> {
     }
 
     /*------- Lecture d'un chamis selon son login ---------------*/
-    public Chamis readWithLogin(String id) {
+    public Chamis readWithPseudo(String id) {
         Chamis u = new Chamis();
         try {
         Statement stmt = connect.createStatement();
