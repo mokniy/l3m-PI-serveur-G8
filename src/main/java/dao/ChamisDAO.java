@@ -38,7 +38,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean update(Chamis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+",ville = "+obj.ville+", description = "+obj.age+",email = "+obj.email+"  where login = '"+obj.pseudo+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+",ville = "+obj.ville+", description = "+obj.age+",email = "+obj.email+"  where pseudo = '"+obj.pseudo+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean delete(Chamis obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from chamis where login ='"+obj.pseudo+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from chamis where pseudo ='"+obj.pseudo+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class ChamisDAO extends DAO<Chamis> {
         Chamis u = new Chamis();
         try {
         Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM chamis WHERE login = '"+id+"'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM chamis WHERE pseudo = '"+id+"'");
         if (rs.next()) {
             u.pseudo = rs.getString("pseudo");
             u.age   = rs.getInt("age");
