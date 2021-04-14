@@ -1,0 +1,53 @@
+//=========================================================================
+//                      Modèle de glossaire
+//-------------------------------------------------------------------------
+// Ce modèle de glossaire est exprimé en GlossaryScript
+// voir https://modelscript.readthedocs.io/en/latest/languages/glossaries/index.html
+//=========================================================================
+
+glossary model CyberChamis
+
+    
+CyberChamis
+    | Commanditaire de `Chamis`.
+    | Ce réseau est formé de plus de plusieurs `Chamis` venant d’une communauté.
+    | L'objectif premier de cette communauté est de constituer une base partagée
+    | de multiples `Defi`s afin de les réaliser. 
+    | 
+
+Chamis
+    | Membre de la communauté des `CyberChamis`. L'objectif premier de ces
+    | `Chamis` est de favoriser l’ajout de nouveaux `Defi`s.
+    | Les `Chamis` peuvent aussi réaliser des `Visites`.
+    | 
+
+Defi
+    | Un `Defi` est une description textuelle.
+    | Ces `Defi`s sont ajoutés par les `Chamis`
+    | Un `Defi` peut avoir un  `Arret` comme référence.
+    | Un `Defi` peut aussi avoir plusieurs `Mot Clef` qui le définissent, ce qui
+    | permet au `Chamis` de `Chercher` un `Defi` grâce à des `Mot Clef`.
+    |
+
+Arret
+    | Un `Arret` est une description textuelle. 
+    | Un `Arret` peut servir de référence 
+    | pour un ou plusieurs `Defi`s.
+    | 
+
+Mot clef
+    | Un `Mot Clef` est utile lorsque l’on souhaite référencer un `Defi`.
+    | Un `Chamis` peut ‘Chercher’ un `Defi` en rentrant des `Mot Clef`.
+    | 
+               
+Chercher
+    | ‘Chercher’ permet de lier un `Defi` à différents `Mot Clef`.
+    | 
+
+Visite
+    | Une `Visite` correspond aux tentatives (fructueuses où non) de relever les
+    | `Defi`s en allant visiter le point du défi.
+    | Lorsqu'un `Chamis` va sur le terrain pour relever un `Défi` on dit qu'il  a fait une `Visite`.
+    | 
+
+
