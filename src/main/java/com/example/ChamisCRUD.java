@@ -50,9 +50,9 @@ public class ChamisCRUD {
     Chamis read(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             ChamisDAO chamisDAO = new ChamisDAO(connection);
-            Chamis u = chamisDAO.readWithLogin(id);
+            Chamis u = chamisDAO.readWithPseudo(id);
             connection.close();
-            if(u.login.equals("null")) {
+            if(u.pseudo.equals("null")) {
                 throw new Exception("Chamis inexistant");
             } else {
                 return u;
@@ -75,12 +75,12 @@ public class ChamisCRUD {
     @PostMapping("/{chamisId}")
     Chamis create(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(u.login.equals(id)) {
+            if(u.pseudo.equals(id)) {
                 ChamisDAO chamisDAO = new ChamisDAO(connection);
-                Chamis uNew = chamisDAO.readWithLogin(id);
-                if(uNew.login == null) {
+                Chamis uNew = chamisDAO.readWithPseudo(id);
+                if(uNew.pseudo == null) {
                     chamisDAO.create(u);
-                    uNew = chamisDAO.readWithLogin(id);
+                    uNew = chamisDAO.readWithPseudo(id);
                     connection.close();
                     return uNew;
                 } else {
@@ -106,14 +106,14 @@ public class ChamisCRUD {
     @PutMapping("/{chamisId}") 
     Chamis update(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(u.login.equals(id)) {
+            if(u.pseudo.equals(id)) {
                 ChamisDAO chamisDAO = new ChamisDAO(connection);
-                Chamis uNew = chamisDAO.readWithLogin(id);
-                if(uNew.login == null) {
+                Chamis uNew = chamisDAO.readWithPseudo(id);
+                if(uNew.pseudo == null) {
                     throw new Exception("ERROR404");
                 } else {
                     chamisDAO.update(u);
-                    uNew = chamisDAO.readWithLogin(id);
+                    uNew = chamisDAO.readWithPseudo(id);
                     connection.close();
                     return uNew;
                 }
@@ -137,8 +137,8 @@ public class ChamisCRUD {
     void delete(@PathVariable(value="chamisId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
                 ChamisDAO chamisDAO = new ChamisDAO(connection);
-                Chamis uOld = chamisDAO.readWithLogin(id);
-                if(uOld.login == null) {
+                Chamis uOld = chamisDAO.readWithPseudo(id);
+                if(uOld.pseudo == null) {
                     throw new Exception("ERROR404");
                 } else {
                     chamisDAO.delete(uOld);

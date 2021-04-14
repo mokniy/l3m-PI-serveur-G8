@@ -18,7 +18,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean create(Chamis obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO chamis VALUES ('"+obj.login+"',"+obj.age+")");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO chamis VALUES ('"+obj.pseudo+"',"+obj.age+",'"+obj.ville+"','"+obj.description+"','"+obj.email+"' )");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -38,7 +38,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean update(Chamis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+" where login = '"+obj.login+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+",ville = "+obj.ville+", description = "+obj.age+",email = "+obj.email+"  where login = '"+obj.pseudo+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean delete(Chamis obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from chamis where login ='"+obj.login+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from chamis where login ='"+obj.pseudo+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,8 +73,11 @@ public class ChamisDAO extends DAO<Chamis> {
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM chamis WHERE login = '"+id+"'");
         if (rs.next()) {
-            u.login = rs.getString("login");
+            u.pseudo = rs.getString("pseudo");
             u.age   = rs.getInt("age");
+            u.ville   = rs.getString("ville");
+            u.description   = rs.getString("description");
+            u.email   = rs.getString("email");
         }
         stmt.close();
         } catch (SQLException e) {
@@ -90,8 +93,11 @@ public class ChamisDAO extends DAO<Chamis> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM chamis");
             while (rs.next()) {
                 Chamis u = new Chamis();
-                u.login = rs.getString("login");
+                u.pseudo = rs.getString("pseudo");
                 u.age   = rs.getInt("age");
+                u.ville   = rs.getString("ville");
+                u.description   = rs.getString("description");
+                u.email   = rs.getString("email");
                 L.add(u);
             }
             stmt.close();
