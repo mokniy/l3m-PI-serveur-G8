@@ -113,4 +113,27 @@ public class DefisDAO extends DAO<Defis> {
         }
         return L;
     }
+
+    public ArrayList<Defis> readAllDefisByAuteur(String auteur) {
+        ArrayList<Defis> L = new ArrayList<Defis>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE auteur = '"+auteur+"'");
+            while (rs.next()) {
+                Defis d = new Defis();
+                d.id = rs.getString("id");
+                d.titre   = rs.getString("titre");
+                d.dateDeCreation = rs.getString("dateDeCreation");
+                d.description = rs.getString("description");
+                d.auteur = rs.getString("auteur");
+                d.arret_defi = rs.getString("arret_defi");
+                L.add(d);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
 }

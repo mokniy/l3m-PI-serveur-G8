@@ -153,4 +153,22 @@ public class DefisCRUD {
         }
 
     }
+
+    @GetMapping("/auteur/{auteurId}")
+    ArrayList<Defis> allDefisByAuteur(@PathVariable(value="auteurId") String auteur, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            DefisDAO defis = new DefisDAO(connection);
+            ArrayList<Defis> L = defis.readAllDefisByAuteur(auteur);
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 }
