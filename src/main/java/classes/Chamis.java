@@ -5,5 +5,5 @@ public class Chamis {
     public Integer age;
     public String ville;
     public String description;
-    public String email;
+    
 }

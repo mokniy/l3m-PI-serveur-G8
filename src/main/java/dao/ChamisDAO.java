@@ -18,7 +18,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean create(Chamis obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO chamis VALUES ('"+obj.pseudo+"',"+obj.age+",'"+obj.ville+"','"+obj.description+"','"+obj.email+"' )");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO chamis VALUES ('"+obj.pseudo+"',"+obj.age+",'"+obj.ville+"','"+obj.description+"' )");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -38,7 +38,7 @@ public class ChamisDAO extends DAO<Chamis> {
     public boolean update(Chamis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+",ville = '"+obj.ville+"', description = '"+obj.description+"',email = '"+obj.email+"'  where pseudo = '"+obj.pseudo+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE chamis SET age = "+obj.age+",ville = '"+obj.ville+"', description = '"+obj.description+"'  where pseudo = '"+obj.pseudo+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,7 +77,7 @@ public class ChamisDAO extends DAO<Chamis> {
             u.age   = rs.getInt("age");
             u.ville   = rs.getString("ville");
             u.description   = rs.getString("description");
-            u.email   = rs.getString("email");
+            
         }
         stmt.close();
         } catch (SQLException e) {
@@ -97,7 +97,6 @@ public class ChamisDAO extends DAO<Chamis> {
                 u.age   = rs.getInt("age");
                 u.ville   = rs.getString("ville");
                 u.description   = rs.getString("description");
-                u.email   = rs.getString("email");
                 L.add(u);
             }
             stmt.close();
