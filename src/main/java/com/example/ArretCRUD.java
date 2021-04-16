@@ -46,6 +46,24 @@ public class ArretCRUD {
         }
     }
 
+    @GetMapping("/defi")
+    ArrayList<Arret> allArretInDefi(HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            ArretDAO arret = new ArretDAO(connection);
+            ArrayList<Arret> L = arret.readAllArretInDefi();
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
     /* cherche l'arret avec l'id donne dans le path */
     @GetMapping("/{arretId}")
     Arret read(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {
@@ -53,7 +71,7 @@ public class ArretCRUD {
             ArretDAO arretDAO = new ArretDAO(connection);
             Arret a = arretDAO.readWithId_arr(id_arr);
             connection.close();
-            if(a.id_arr.equals("null")) {
+            if(a.code.equals("null")) {
                 throw new Exception("Arret inexistant");
             } else {
                 return a;
@@ -76,10 +94,10 @@ public class ArretCRUD {
     @PostMapping("/{arretId}")
     Arret create(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(a.id_arr.equals(id_arr)) {
+            if(a.code.equals(id_arr)) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.id_arr == null) {
+                if(aNew.code == null) {
                     arretDAO.create(a);
                     aNew = arretDAO.readWithId_arr(id_arr);
                     connection.close();
@@ -107,10 +125,10 @@ public class ArretCRUD {
     @PutMapping("/{arretId}") 
     Arret update(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(a.id_arr.equals(id_arr)) {
+            if(a.code.equals(id_arr)) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.id_arr == null) {
+                if(aNew.code == null) {
                     throw new Exception("ERROR404");
                 } else {
                     arretDAO.update(a);
@@ -139,7 +157,7 @@ public class ArretCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aOld = arretDAO.readWithId_arr(id_arr);
-                if(aOld.id_arr == null) {
+                if(aOld.code == null) {
                     throw new Exception("ERROR404");
                 } else {
                     arretDAO.delete(aOld);

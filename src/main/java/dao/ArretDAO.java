@@ -20,7 +20,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean create(Arret obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO arret VALUES ('"+obj.id_arr+"','"+obj.nom_arr+"','"+obj.adresse_arr+"', '"+obj.gps_arr+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO arret VALUES ('"+obj.code+"','"+obj.arret+"','"+obj.streetMap+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean update(Arret obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET id_arr = '"+obj.id_arr+"', nom_arr = '"+obj.nom_arr+"', adresse_arr = '"+obj.adresse_arr+"', gps_arr = '"+obj.gps_arr+"'  where id_arr = '"+obj.id_arr+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET code = '"+obj.code+"', arret = '"+obj.arret+"', streetMap = '"+obj.streetMap+"' where code= '"+obj.code+"'");  
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean delete(Arret obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from arret where id_arr ='"+obj.id_arr+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from arret where code ='"+obj.code+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,16 +71,15 @@ public class ArretDAO extends DAO<Arret> {
     }
 
     /* ---- Affichage de tous les éléments voulus ---- */
-    public Arret readWithId_arr(String id_arr) {
+    public Arret readWithId_arr(String code) {
         Arret a = new Arret();
         try {
         Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM arret WHERE id_arr = '"+id_arr+"'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM arret WHERE code = '"+code+"'");
         if (rs.next()) {
-            a.id_arr = rs.getString("id_arr");
-            a.nom_arr   = rs.getString("nom_arr");
-            a.adresse_arr = rs.getString("adresse_arr");
-            a.gps_arr   = rs.getString("gps_arr");
+            a.code = rs.getString("code");
+            a.arret   = rs.getString("arret");
+            a.streetMap = rs.getString("streetMap");
         }
         stmt.close();
         } catch (SQLException e) {
@@ -97,10 +96,29 @@ public class ArretDAO extends DAO<Arret> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM arret");
             while (rs.next()) {
                 Arret a = new Arret();
-               a.id_arr = rs.getString("id_arr");
-               a.nom_arr   = rs.getString("nom_arr");
-               a.adresse_arr = rs.getString("adresse_arr");
-               a.gps_arr   = rs.getString("gps_arr");
+                a.code = rs.getString("code");
+                a.arret   = rs.getString("arret");
+                a.streetMap = rs.getString("streetMap");
+                L.add(a);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
+    
+    public ArrayList<Arret> readAllArretInDefi() {
+        ArrayList<Arret> L = new ArrayList<Arret>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT DISTINCT * FROM arret WHERE code IN (SELECT code_arret FROM defi)");
+            while (rs.next()) {
+                Arret a = new Arret();
+                a.code = rs.getString("code");
+                a.arret   = rs.getString("arret");
+                a.streetMap = rs.getString("streetMap");
                 L.add(a);
             }
             stmt.close();
