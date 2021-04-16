@@ -19,7 +19,7 @@ public class DefisDAO extends DAO<Defis> {
     public boolean create(Defis obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.id+"','"+obj.titre+"','"+obj.dateDeCreation+"','"+obj.description+"','"+obj.auteur+"','"+obj.arret_defi+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.defi+"','"+obj.titre+"','"+obj.dateDeCreation+"','"+obj.description+"','"+obj.auteur+"','"+obj.code_arret+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class DefisDAO extends DAO<Defis> {
     public boolean update(Defis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE defi SET titre = '"+obj.titre+"', dateDeCreation = '"+obj.dateDeCreation+"', description = '"+obj.description+"', auteur = '"+obj.auteur+"', arret_defi = '"+obj.arret_defi+"' WHERE id = '"+obj.id+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE defi SET titre = '"+obj.titre+"', dateDeCreation = '"+obj.dateDeCreation+"', description = '"+obj.description+"', auteur = '"+obj.auteur+"', code_arret = '"+obj.code_arret+"' WHERE defi = '"+obj.defi+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class DefisDAO extends DAO<Defis> {
     public boolean delete(Defis obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from defi where id ='"+obj.id+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from defi where defi ='"+obj.defi+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,14 +74,14 @@ public class DefisDAO extends DAO<Defis> {
         Defis d = new Defis();
         try {
         Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE id = '"+id+"'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE defi = '"+id+"'");
         if (rs.next()) {
-            d.id = rs.getString("id");
+            d.defi = rs.getString("defi");
             d.titre   = rs.getString("titre");
             d.dateDeCreation = rs.getString("dateDeCreation");
             d.description   = rs.getString("description");
             d.auteur   = rs.getString("auteur");
-            d.arret_defi = rs.getString("arret_defi");
+            d.code_arret = rs.getString("code_arret");
         }
         stmt.close();
         } catch (SQLException e) {
@@ -98,12 +98,12 @@ public class DefisDAO extends DAO<Defis> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM defi");
             while (rs.next()) {
                 Defis d = new Defis();
-                d.id = rs.getString("id");
+                d.defi = rs.getString("defi");
                 d.titre   = rs.getString("titre");
                 d.dateDeCreation = rs.getString("dateDeCreation");
                 d.description = rs.getString("description");
                 d.auteur = rs.getString("auteur");
-                d.arret_defi = rs.getString("arret_defi");
+                d.code_arret = rs.getString("code_arret");
                 L.add(d);
             }
             stmt.close();
@@ -121,12 +121,12 @@ public class DefisDAO extends DAO<Defis> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE auteur = '"+auteur+"'");
             while (rs.next()) {
                 Defis d = new Defis();
-                d.id = rs.getString("id");
+                d.defi = rs.getString("defi");
                 d.titre   = rs.getString("titre");
                 d.dateDeCreation = rs.getString("dateDeCreation");
                 d.description = rs.getString("description");
                 d.auteur = rs.getString("auteur");
-                d.arret_defi = rs.getString("arret_defi");
+                d.code_arret = rs.getString("code_arret");
                 L.add(d);
             }
             stmt.close();

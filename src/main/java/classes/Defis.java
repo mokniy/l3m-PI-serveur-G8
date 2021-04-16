@@ -1,10 +1,10 @@
 package classes;
 
 public class Defis {
-    public String id;
+    public String defi;
     public String titre;
     public String dateDeCreation;
     public String description;
     public String auteur;
-    public String arret_defi;
+    public String code_arret;
 }
