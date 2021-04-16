@@ -19,7 +19,7 @@ public class DefisDAO extends DAO<Defis> {
     public boolean create(Defis obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.defi+"','"+obj.titre+"','"+obj.dateDeCreation+"','"+obj.description+"','"+obj.auteur+"','"+obj.code_arret+"',"+obj.type+"','"+obj.dateDeModification+"',"+obj.version+",'"+obj.arret+"','"+obj.points+",'"+obj.duree+"','"+obj.prologue+"','"+obj.epilogue+"','"+obj.commentaire+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.defi+"','"+obj.titre+"','"+obj.dateDeCreation+"','"+obj.description+"','"+obj.auteur+"','"+obj.code_arret+"','"+obj.type+"','"+obj.dateDeModification+"',"+obj.version+",'"+obj.arret+"',"+obj.points+",'"+obj.duree+"','"+obj.prologue+"','"+obj.epilogue+"','"+obj.commentaire+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

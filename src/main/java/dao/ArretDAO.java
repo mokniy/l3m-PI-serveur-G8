@@ -20,7 +20,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean create(Arret obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO arret VALUES ('"+obj.code+"','"+obj.arret+"','"+obj.streetMap+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO arret VALUES ('"+obj.code+"','"+obj.lib_arret+"','"+obj.streetMap+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean update(Arret obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET code = '"+obj.code+"', arret = '"+obj.arret+"', streetMap = '"+obj.streetMap+"' where code= '"+obj.code+"'");  
+            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET lib_arret = '"+obj.lib_arret+"', streetMap = '"+obj.streetMap+"' WHERE code= '"+obj.code+"'");  
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ public class ArretDAO extends DAO<Arret> {
         ResultSet rs = stmt.executeQuery("SELECT * FROM arret WHERE code = '"+code+"'");
         if (rs.next()) {
             a.code = rs.getString("code");
-            a.arret   = rs.getString("arret");
+            a.lib_arret   = rs.getString("lib_arret");
             a.streetMap = rs.getString("streetMap");
         }
         stmt.close();
@@ -97,7 +97,7 @@ public class ArretDAO extends DAO<Arret> {
             while (rs.next()) {
                 Arret a = new Arret();
                 a.code = rs.getString("code");
-                a.arret   = rs.getString("arret");
+                a.lib_arret   = rs.getString("lib_arret");
                 a.streetMap = rs.getString("streetMap");
                 L.add(a);
             }
@@ -117,7 +117,7 @@ public class ArretDAO extends DAO<Arret> {
             while (rs.next()) {
                 Arret a = new Arret();
                 a.code = rs.getString("code");
-                a.arret   = rs.getString("arret");
+                a.lib_arret   = rs.getString("lib_arret");
                 a.streetMap = rs.getString("streetMap");
                 L.add(a);
             }
