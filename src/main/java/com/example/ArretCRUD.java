@@ -64,6 +64,28 @@ public class ArretCRUD {
         }
     }
 
+    /* donne le nombre defi pour un arret */
+    @GetMapping("/nb_defi/{arretId}")
+    Integer allArretInDefi(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+                ArretDAO arretDAO = new ArretDAO(connection);
+                Arret aNew = arretDAO.readWithId_arr(id_arr);
+                if(aNew.code != null) {
+                    int nb_defi = arretDAO.getNbDefi(id_arr);
+                    connection.close();
+                    return nb_defi;
+                } else {
+                    throw new Exception("ERROR404");
+                }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR404")) {
+                response.setStatus(404);
+            }
+            return null;
+        }
+    }
+
     /* cherche l'arret avec l'id donne dans le path */
     @GetMapping("/{arretId}")
     Arret read(@PathVariable(value="arretId") String id_arr, HttpServletResponse response) {

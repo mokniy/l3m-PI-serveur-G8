@@ -88,6 +88,23 @@ public class ArretDAO extends DAO<Arret> {
         return a;
     }
     
+
+    /* ---- Retourne le nombre de défi présent à un arrêt  ---- */
+    public int getNbDefi(String code) {
+        int nb_defi = 0;
+        try {
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as nb_defi FROM defi WHERE code_arret = '"+code+"'");
+        if (rs.next()) {
+            nb_defi = rs.getInt("nb_defi");
+        }
+        stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nb_defi;
+    }
+
     /* ---- Affichage de la liste de tous les éléments ---- */
     public ArrayList<Arret> readAllArret() {
         ArrayList<Arret> L = new ArrayList<Arret>();
