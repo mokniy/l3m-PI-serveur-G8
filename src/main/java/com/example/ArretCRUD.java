@@ -71,7 +71,7 @@ public class ArretCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.code != null) {
+                if(aNew.getCode() != null) {
                     int nb_defi = arretDAO.getNbDefi(id_arr);
                     connection.close();
                     return nb_defi;
@@ -93,7 +93,7 @@ public class ArretCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.code != null) {
+                if(aNew.getCode() != null) {
                     ArrayList<Defis> L = arretDAO.getDefi(id_arr);
                     connection.close();
                     return L;

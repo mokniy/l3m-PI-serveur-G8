@@ -114,21 +114,21 @@ public class ArretDAO extends DAO<Arret> {
         ResultSet rs = stmt.executeQuery("SELECT * FROM ARRET inner join defi d2 on d2.code_arret = arret.code where code = '"+code+"'");
         while (rs.next()) {
             Defis d = new Defis();
-            d.defi = rs.getString("defi");
-            d.titre   = rs.getString("titre");
-            d.dateDeCreation   = rs.getString("dateDeCreation");
-            d.description   = rs.getString("description");
-            d.auteur   = rs.getString("auteur");
-            d.code_arret   = rs.getString("code_arret");
-            d.type = rs.getString("type");
-            d.dateDeModification = rs.getString("dateDeModification");
-            d.version = rs.getInt("version");
-            d.arret   = rs.getString("arret");
-            d.points   = rs.getInt("points");
-            d.duree   = rs.getString("duree");
-            d.prologue = rs.getString("prologue");
-            d.epilogue   = rs.getString("epilogue");
-            d.commentaire = rs.getString("commentaire");
+            d.setDefi(rs.getString("defi"));
+            d.setTitre(rs.getString("titre"));
+            d.setDateDeCreation(rs.getString("dateDeCreation"));
+            d.setDescription(rs.getString("description"));
+            d.setAuteur(rs.getString("auteur"));
+            d.setCode_arret(rs.getString("code_arret"));
+            d.setType(rs.getString("type"));
+            d.setDateDeModification(rs.getString("dateDeModification"));
+            d.setVersion(rs.getInt("version"));
+            d.setArret(rs.getString("arret"));
+            d.setPoints(rs.getInt("points"));
+            d.setDuree(rs.getString("duree"));
+            d.setPrologue(rs.getString("prologue"));
+            d.setEpilogue(rs.getString("epilogue"));
+            d.setCommentaire(rs.getString("commentaire"));
             L.add(d);
         }
         stmt.close();
