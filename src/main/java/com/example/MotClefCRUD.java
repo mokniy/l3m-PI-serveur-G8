@@ -112,11 +112,14 @@ public class MotClefCRUD {
     MotClef createWithoutID(@RequestBody MotClef mc, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             MotClefDAO motClefsDAO = new MotClefDAO(connection);
-            String id = motClefsDAO.getAutoIncrement();
-            MotClef mcNew = motClefsDAO.readWithId(id);
+            while (motClefsDAO.motClefExist(motClefsDAO.getCurrentIncrement()+1)) {
+                motClefsDAO.getNext();
+            }
+            String current_id = "MC"+(motClefsDAO.getCurrentIncrement()+1);
+            MotClef mcNew = motClefsDAO.readWithId(current_id);
             if(mcNew.getId_mc() == null) {
                 motClefsDAO.createSansID(mc);
-                mcNew = motClefsDAO.readWithId(id);
+                mcNew = motClefsDAO.readWithId(current_id);
                 connection.close();
                 return mcNew;
             } else {
@@ -132,7 +135,6 @@ public class MotClefCRUD {
             return null;
         }
     }
-
 
 
     /* ---- Modifie un élément ---- */

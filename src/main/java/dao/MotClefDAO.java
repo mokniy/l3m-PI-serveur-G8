@@ -121,21 +121,54 @@ public class MotClefDAO extends DAO<MotClef> {
         }
         return L;
     }
-
-    public String getAutoIncrement(){
-        String id = "MC";
+    
+    public Integer getCurrentIncrement(){
+        //String id = "MC";
         Integer lv = 0;
         try {
             Statement stmt = connect.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT last_value FROM seq_mc");
             if (rs.next()) {
-                lv = rs.getInt("last_value")+1;
-                id += Integer.toString(lv);
+                lv = rs.getInt("last_value");
+            }
+            
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lv;
+    }
+
+    public Integer getNext(){
+        //String id = "MC";
+        Integer lv = 0;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("select nextval('seq_mc')");
+            if (rs.next()) {
+                lv = rs.getInt("nextval");
+            }
+            
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lv;
+    }
+
+    public boolean motClefExist(Integer id) {
+        boolean res = false;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef where id_mc = 'MC"+id+"'");
+            if (rs.next()) {
+                res = true;
             }
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return id;
+        return res;
     }
+
 }
