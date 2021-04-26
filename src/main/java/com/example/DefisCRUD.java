@@ -108,11 +108,14 @@ public class DefisCRUD {
     Defis createWithoutId(@RequestBody Defis d, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             DefisDAO defisDAO = new DefisDAO(connection);
-            String id = defisDAO.getAutoIncrement();
-            Defis dNew = defisDAO.readWithId(id);
+            while (defisDAO.defiExist(defisDAO.getCurrentIncrement()+1)) {
+                defisDAO.getNext();
+            }
+            String current_id = "D"+(defisDAO.getCurrentIncrement()+1);
+            Defis dNew = defisDAO.readWithId(current_id);
             if(dNew.getDefi() == null) {
                 defisDAO.createSansID(d);
-                dNew = defisDAO.readWithId(id);
+                dNew = defisDAO.readWithId(current_id);
                 connection.close();
                 return dNew;
             } else {

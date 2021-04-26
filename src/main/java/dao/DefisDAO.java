@@ -182,22 +182,51 @@ public class DefisDAO extends DAO<Defis> {
         return L;
     }
 
-
-    public String getAutoIncrement(){
-        String id = "D";
+    public Integer getCurrentIncrement(){
         Integer lv = 0;
         try {
             Statement stmt = connect.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT last_value FROM seq_def");
             if (rs.next()) {
-                lv = rs.getInt("last_value")+1;
-                id += Integer.toString(lv);
+                lv = rs.getInt("last_value");
+            }
+            
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lv;
+    }
+
+    public Integer getNext(){
+        Integer lv = 0;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("select nextval('seq_def')");
+            if (rs.next()) {
+                lv = rs.getInt("nextval");
+            }
+            
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lv;
+    }
+
+    public boolean defiExist(Integer id) {
+        boolean res = false;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM defi where defi = 'D"+id+"'");
+            if (rs.next()) {
+                res = true;
             }
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return id;
+        return res;
     }
 
 
