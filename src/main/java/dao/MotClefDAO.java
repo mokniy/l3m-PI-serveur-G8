@@ -30,6 +30,22 @@ public class MotClefDAO extends DAO<MotClef> {
         }
     }
 
+    /* ---- Création d'un nouveau mot clef SANS ID ---- */
+    
+    public boolean createSansID(MotClef obj){
+        int nb = 0;
+        try {
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO mot_clef (mot_mc) VALUES ('"+obj.getMot_mc()+"')");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public MotClef read(int id) {
         return null;
@@ -104,5 +120,22 @@ public class MotClefDAO extends DAO<MotClef> {
             e.printStackTrace();
         }
         return L;
+    }
+
+    public String getAutoIncrement(){
+        String id = "MC";
+        Integer lv = 0;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT last_value FROM seq_mc");
+            if (rs.next()) {
+                lv = rs.getInt("last_value")+1;
+                id += Integer.toString(lv);
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 }

@@ -101,6 +101,34 @@ public class DefisCRUD {
         }
     }
 
+    /* ---- Créé un élément SANS ID ---- */
+    //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
+    //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
+    @PostMapping("/")
+    Defis createWithoutId(@RequestBody Defis d, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            DefisDAO defisDAO = new DefisDAO(connection);
+            String id = defisDAO.getAutoIncrement();
+            Defis dNew = defisDAO.readWithId(id);
+            if(dNew.getDefi() == null) {
+                defisDAO.createSansID(d);
+                dNew = defisDAO.readWithId(id);
+                connection.close();
+                return dNew;
+            } else {
+                throw new Exception("ERROR403");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR412")) {
+                response.setStatus(412);
+            } else if(e.getMessage().equals("ERROR403")) {
+                response.setStatus(403);
+            }
+            return null;
+        }
+    }
+
     /* Update le defi dont l'id est donne dans le path */
     //Renvoyer une erreur 404 si l'identifiant du defi ne correspond pas à un defi dans la base.
     //Renvoyer une erreur 412 si l'identifiant du defi dans l'URL n'est pas le même que celui du defi dans le corps de la requête.

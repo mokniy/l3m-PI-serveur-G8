@@ -46,7 +46,9 @@ public class MotClefCRUD {
         }
     }
 
+    
     /* ---- Cherche un élément ---- */
+    
     @GetMapping("/{motclefId}")
     MotClef read(@PathVariable(value="motclefId") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -69,8 +71,10 @@ public class MotClefCRUD {
             return null;
         }
     }
+    
 
     /* ---- Créé un élément ---- */
+    
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
     @PostMapping("/{motclefId}")
@@ -100,6 +104,36 @@ public class MotClefCRUD {
             return null;
         }
     }
+    
+    /* ---- Créé un élément SANS ID ---- */
+    //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
+    //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
+    @PostMapping("/")
+    MotClef createWithoutID(@RequestBody MotClef mc, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            MotClefDAO motClefsDAO = new MotClefDAO(connection);
+            String id = motClefsDAO.getAutoIncrement();
+            MotClef mcNew = motClefsDAO.readWithId(id);
+            if(mcNew.getId_mc() == null) {
+                motClefsDAO.createSansID(mc);
+                mcNew = motClefsDAO.readWithId(id);
+                connection.close();
+                return mcNew;
+            } else {
+                throw new Exception("ERROR403");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR412")) {
+                response.setStatus(412);
+            } else if(e.getMessage().equals("ERROR403")) {
+                response.setStatus(403);
+            }
+            return null;
+        }
+    }
+
+
 
     /* ---- Modifie un élément ---- */
     //Renvoyer une erreur 404 si l'identifiant du Mot clef ne correspond pas à un Mot clef dans la base.

@@ -30,6 +30,23 @@ public class DefisDAO extends DAO<Defis> {
         }
     }
 
+    /* ---- Création d'un nouveau defi SANS ID ---- */
+    
+    public boolean createSansID(Defis obj){
+        int nb = 0;
+        try {
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi (titre, dateDeCreation, description, auteur, code_arret, type, dateDeModification, version, arret, points, duree, prologue, epilogue, commentaire) VALUES ('"+obj.getTitre()+"','"+obj.getDateDeCreation()+"','"+obj.getDescription()+"','"+obj.getAuteur()+"','"+obj.getCode_arret()+"','"+obj.getType()+"','"+obj.getDateDeModification()+"',"+obj.getVersion()+",'"+obj.getArret()+"',"+obj.getPoints()+",'"+obj.getDuree()+"','"+obj.getPrologue()+"','"+obj.getEpilogue()+"','"+obj.getCommentaire()+"')");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     @Override
     public Defis read(int id) {
         return null;
@@ -164,4 +181,25 @@ public class DefisDAO extends DAO<Defis> {
         }
         return L;
     }
+
+
+    public String getAutoIncrement(){
+        String id = "D";
+        Integer lv = 0;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT last_value FROM seq_def");
+            if (rs.next()) {
+                lv = rs.getInt("last_value")+1;
+                id += Integer.toString(lv);
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+
+
 }
