@@ -19,7 +19,7 @@ public class MotClefDAO extends DAO<MotClef> {
     public boolean create(MotClef obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO mot_clef VALUES ('"+obj.id_mc+"','"+obj.mot_mc+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO mot_clef VALUES ('"+obj.getId_mc()+"','"+obj.getMot_mc()+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class MotClefDAO extends DAO<MotClef> {
     public boolean update(MotClef obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE mot_clef SET id_mc = '"+obj.id_mc+"', mot_mc = '"+obj.mot_mc+"' WHERE id_mc = '"+obj.id_mc+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE mot_clef SET id_mc = '"+obj.getId_mc()+"', mot_mc = '"+obj.getMot_mc()+"' WHERE id_mc = '"+obj.getId_mc()+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class MotClefDAO extends DAO<MotClef> {
     public boolean delete(MotClef obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from mot_clef where id_mc ='"+obj.id_mc+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from mot_clef where id_mc ='"+obj.getId_mc()+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,8 +76,8 @@ public class MotClefDAO extends DAO<MotClef> {
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef WHERE id_mc = '"+id+"'");
         if (rs.next()) {
-            mc.id_mc = rs.getString("id_mc");
-            mc.mot_mc  = rs.getString("mot_mc");
+            mc.setId_mc(rs.getString("id_mc"));
+            mc.setMot_mc(rs.getString("mot_mc"));
         }
         stmt.close();
         } catch (SQLException e) {
@@ -94,8 +94,8 @@ public class MotClefDAO extends DAO<MotClef> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef");
             while (rs.next()) {
                 MotClef mc = new MotClef();
-                mc.id_mc = rs.getString("id_mc");
-                mc.mot_mc  = rs.getString("mot_mc");
+                mc.setId_mc(rs.getString("id_mc"));
+                mc.setMot_mc(rs.getString("mot_mc"));
                 L.add(mc);
             }
             stmt.close();

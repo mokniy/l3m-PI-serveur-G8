@@ -72,7 +72,7 @@ public class ChercherCRUD {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
             Chercher ch = chercherDAO.readWithId_defi(id);
             connection.close();
-            if(ch.id_defi.equals("null")) {
+            if(ch.getId_defi().equals("null")) {
                 throw new Exception("Chercher inexistant");
             } else {
                 return ch;
@@ -96,7 +96,7 @@ public class ChercherCRUD {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
             Chercher ch = chercherDAO.readWithId_mc(id);
             connection.close();
-            if(ch.id_mc.equals("null")) {
+            if(ch.getId_mc().equals("null")) {
                 throw new Exception("Chercher inexistant");
             } else {
                 return ch;
@@ -122,11 +122,11 @@ public class ChercherCRUD {
     @PostMapping("/{defiId}&{mcId}")
     Chercher create(@PathVariable(value="defiId") String id1, @PathVariable(value="mcId") String id2, @RequestBody Chercher ch, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(ch.id_defi.equals(id1)) {
-                if(ch.id_mc.equals(id2)){
+            if(ch.getId_defi().equals(id1)) {
+                if(ch.getId_mc().equals(id2)){
                     ChercherDAO chercherDAO = new ChercherDAO(connection);
                     Chercher chNew = chercherDAO.readWithTwoId(id1,id2);
-                    if(chNew.id_defi == null) {
+                    if(chNew.getId_defi() == null) {
                         chercherDAO.create(ch);
                         chNew = chercherDAO.readWithTwoId(id1,id2);
                         connection.close();
@@ -160,10 +160,10 @@ public class ChercherCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 ChercherDAO chercherDAO = new ChercherDAO(connection);
                 Chercher chOld = chercherDAO.readWithTwoId(id1,id2);
-                if(chOld.id_defi == null) {
+                if(chOld.getId_defi() == null) {
                     throw new Exception("ERROR404");
                 } else {
-                    if (chOld.id_mc == null){
+                    if (chOld.getId_mc() == null){
                         throw new Exception("ERROR404");
                     } else {
                         chercherDAO.delete(chOld);

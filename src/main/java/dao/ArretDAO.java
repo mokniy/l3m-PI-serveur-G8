@@ -20,7 +20,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean create(Arret obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO arret VALUES ('"+obj.code+"','"+obj.arret+"','"+obj.streetMap+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO arret VALUES ('"+obj.getCode()+"','"+obj.getLib_arret()+"','"+obj.getStreetMap()+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean update(Arret obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET code = '"+obj.code+"', arret = '"+obj.arret+"', streetMap = '"+obj.streetMap+"' where code= '"+obj.code+"'");  
+            nb = this.connect.createStatement().executeUpdate("UPDATE arret SET code = '"+obj.getCode()+"', lib_arret = '"+obj.getLib_arret()+"', streetMap = '"+obj.getStreetMap()+"' where code= '"+obj.getCode()+"'");  
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class ArretDAO extends DAO<Arret> {
     public boolean delete(Arret obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from arret where code ='"+obj.code+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from arret where code ='"+obj.getCode()+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,9 +77,9 @@ public class ArretDAO extends DAO<Arret> {
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM arret WHERE code = '"+code+"'");
         if (rs.next()) {
-            a.code = rs.getString("code");
-            a.arret   = rs.getString("arret");
-            a.streetMap = rs.getString("streetMap");
+            a.setCode(rs.getString("code"));
+            a.setLib_arret(rs.getString("lib_arret"));
+            a.setStreetMap(rs.getString("streetMap"));
         }
         stmt.close();
         } catch (SQLException e) {
@@ -96,9 +96,9 @@ public class ArretDAO extends DAO<Arret> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM arret");
             while (rs.next()) {
                 Arret a = new Arret();
-                a.code = rs.getString("code");
-                a.arret   = rs.getString("arret");
-                a.streetMap = rs.getString("streetMap");
+                a.setCode(rs.getString("code"));
+                a.setLib_arret(rs.getString("lib_arret"));
+                a.setStreetMap(rs.getString("streetMap"));
                 L.add(a);
             }
             stmt.close();
@@ -116,9 +116,9 @@ public class ArretDAO extends DAO<Arret> {
             ResultSet rs = stmt.executeQuery("SELECT DISTINCT * FROM arret WHERE code IN (SELECT code_arret FROM defi)");
             while (rs.next()) {
                 Arret a = new Arret();
-                a.code = rs.getString("code");
-                a.arret   = rs.getString("arret");
-                a.streetMap = rs.getString("streetMap");
+                a.setCode(rs.getString("code"));
+                a.setLib_arret(rs.getString("lib_arret"));
+                a.setStreetMap(rs.getString("streetMap"));
                 L.add(a);
             }
             stmt.close();

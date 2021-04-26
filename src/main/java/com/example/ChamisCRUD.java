@@ -52,7 +52,7 @@ public class ChamisCRUD {
             ChamisDAO chamisDAO = new ChamisDAO(connection);
             Chamis u = chamisDAO.readWithPseudo(id);
             connection.close();
-            if(u.pseudo.equals("null")) {
+            if(u.getPseudo().equals("null")) {
                 throw new Exception("Chamis inexistant");
             } else {
                 return u;
@@ -75,10 +75,10 @@ public class ChamisCRUD {
     @PostMapping("/{chamisId}")
     Chamis create(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(u.pseudo.equals(id)) {
+            if(u.getPseudo().equals(id)) {
                 ChamisDAO chamisDAO = new ChamisDAO(connection);
                 Chamis uNew = chamisDAO.readWithPseudo(id);
-                if(uNew.pseudo == null) {
+                if(uNew.getPseudo() == null) {
                     chamisDAO.create(u);
                     uNew = chamisDAO.readWithPseudo(id);
                     connection.close();
@@ -106,10 +106,10 @@ public class ChamisCRUD {
     @PutMapping("/{chamisId}") 
     Chamis update(@PathVariable(value="chamisId") String id, @RequestBody Chamis u, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(u.pseudo.equals(id)) {
+            if(u.getPseudo().equals(id)) {
                 ChamisDAO chamisDAO = new ChamisDAO(connection);
                 Chamis uNew = chamisDAO.readWithPseudo(id);
-                if(uNew.pseudo == null) {
+                if(uNew.getPseudo() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     chamisDAO.update(u);
@@ -138,7 +138,7 @@ public class ChamisCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 ChamisDAO chamisDAO = new ChamisDAO(connection);
                 Chamis uOld = chamisDAO.readWithPseudo(id);
-                if(uOld.pseudo == null) {
+                if(uOld.getPseudo() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     chamisDAO.delete(uOld);

@@ -19,7 +19,7 @@ public class DefisDAO extends DAO<Defis> {
     public boolean create(Defis obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.defi+"','"+obj.titre+"','"+obj.dateDeCreation+"','"+obj.description+"','"+obj.auteur+"','"+obj.code_arret+"',"+obj.type+"','"+obj.dateDeModification+"',"+obj.version+",'"+obj.arret+"','"+obj.points+",'"+obj.duree+"','"+obj.prologue+"','"+obj.epilogue+"','"+obj.commentaire+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO defi VALUES ('"+obj.getDefi()+"','"+obj.getTitre()+"','"+obj.getDateDeCreation()+"','"+obj.getDescription()+"','"+obj.getAuteur()+"','"+obj.getCode_arret()+"','"+obj.getType()+"','"+obj.getDateDeModification()+"',"+obj.getVersion()+",'"+obj.getArret()+"',"+obj.getPoints()+",'"+obj.getDuree()+"','"+obj.getPrologue()+"','"+obj.getEpilogue()+"','"+obj.getCommentaire()+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class DefisDAO extends DAO<Defis> {
     public boolean update(Defis obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE defi SET titre = '"+obj.titre+"', dateDeCreation = '"+obj.dateDeCreation+"',  description = '"+obj.description+"', auteur = '"+obj.auteur+"', code_arret = '"+obj.code_arret+"', type = '"+obj.type+"', dateDeModification = '"+obj.dateDeModification+"', version = '"+obj.version+"',  arret = '"+obj.arret+"', points = '"+obj.points+"', duree = '"+obj.duree+"', prologue = '"+obj.prologue+"', epilogue = '"+obj.epilogue+"', commentaire = '"+obj.commentaire+"'WHERE defi = '"+obj.defi+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE defi SET titre = '"+obj.getTitre()+"', dateDeCreation = '"+obj.getDateDeCreation()+"',  description = '"+obj.getDescription()+"', auteur = '"+obj.getAuteur()+"', code_arret = '"+obj.getCode_arret()+"', type = '"+obj.getType()+"', dateDeModification = '"+obj.getDateDeModification()+"', version = '"+obj.getVersion()+"',  arret = '"+obj.getArret()+"', points = '"+obj.getPoints()+"', duree = '"+obj.getDuree()+"', prologue = '"+obj.getPrologue()+"', epilogue = '"+obj.getEpilogue()+"', commentaire = '"+obj.getCommentaire()+"' WHERE defi = '"+obj.getDefi()+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class DefisDAO extends DAO<Defis> {
     public boolean delete(Defis obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("delete from defi where defi ='"+obj.defi+"'");
+        nb = this.connect.createStatement().executeUpdate("delete from defi where defi ='"+obj.getDefi()+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,21 +76,21 @@ public class DefisDAO extends DAO<Defis> {
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE defi = '"+id+"'");
         if (rs.next()) {
-            d.defi = rs.getString("defi");
-            d.titre   = rs.getString("titre");
-            d.dateDeCreation   = rs.getString("dateDeCreation");
-            d.description   = rs.getString("description");
-            d.auteur   = rs.getString("auteur");
-            d.code_arret   = rs.getString("code_arret");
-            d.type = rs.getString("type");
-            d.dateDeModification = rs.getString("dateDeModification");
-            d.version = rs.getInt("version");
-            d.arret   = rs.getString("arret");
-            d.points   = rs.getInt("points");
-            d.duree   = rs.getString("duree");
-            d.prologue = rs.getString("prologue");
-            d.epilogue   = rs.getString("epilogue");
-            d.commentaire = rs.getString("commentaire");
+            d.setDefi(rs.getString("defi"));
+            d.setTitre(rs.getString("titre"));
+            d.setDateDeCreation(rs.getString("dateDeCreation"));
+            d.setDescription(rs.getString("description"));
+            d.setAuteur(rs.getString("auteur"));
+            d.setCode_arret(rs.getString("code_arret"));
+            d.setType(rs.getString("type"));
+            d.setDateDeModification(rs.getString("dateDeModification"));
+            d.setVersion(rs.getInt("version"));
+            d.setArret(rs.getString("arret"));
+            d.setPoints(rs.getInt("points"));
+            d.setDuree(rs.getString("duree"));
+            d.setPrologue(rs.getString("prologue"));
+            d.setEpilogue(rs.getString("epilogue"));
+            d.setCommentaire(rs.getString("commentaire"));
             
         }
         stmt.close();
@@ -108,21 +108,21 @@ public class DefisDAO extends DAO<Defis> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM defi");
             while (rs.next()) {
                 Defis d = new Defis();
-                d.defi = rs.getString("defi");
-                d.titre   = rs.getString("titre");
-                d.dateDeCreation   = rs.getString("dateDeCreation");
-                d.description   = rs.getString("description");
-                d.auteur   = rs.getString("auteur");
-                d.code_arret   = rs.getString("code_arret");
-                d.type = rs.getString("type");
-                d.dateDeModification = rs.getString("dateDeModification");
-                d.version = rs.getInt("version");
-                d.arret   = rs.getString("arret");
-                d.points   = rs.getInt("points");
-                d.duree   = rs.getString("duree");
-                d.prologue = rs.getString("prologue");
-                d.epilogue   = rs.getString("epilogue");
-                d.commentaire = rs.getString("commentaire");
+                d.setDefi(rs.getString("defi"));
+                d.setTitre(rs.getString("titre"));
+                d.setDateDeCreation(rs.getString("dateDeCreation"));
+                d.setDescription(rs.getString("description"));
+                d.setAuteur(rs.getString("auteur"));
+                d.setCode_arret(rs.getString("code_arret"));
+                d.setType(rs.getString("type"));
+                d.setDateDeModification(rs.getString("dateDeModification"));
+                d.setVersion(rs.getInt("version"));
+                d.setArret(rs.getString("arret"));
+                d.setPoints(rs.getInt("points"));
+                d.setDuree(rs.getString("duree"));
+                d.setPrologue(rs.getString("prologue"));
+                d.setEpilogue(rs.getString("epilogue"));
+                d.setCommentaire(rs.getString("commentaire"));
                 L.add(d);
             }
             stmt.close();
@@ -140,21 +140,21 @@ public class DefisDAO extends DAO<Defis> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE auteur = '"+auteur+"'");
             while (rs.next()) {
                 Defis d = new Defis();
-                d.defi = rs.getString("defi");
-                d.titre   = rs.getString("titre");
-                d.dateDeCreation   = rs.getString("dateDeCreation");
-                d.description   = rs.getString("description");
-                d.auteur   = rs.getString("auteur");
-                d.code_arret   = rs.getString("code_arret");
-                d.type = rs.getString("type");
-                d.dateDeModification = rs.getString("dateDeModification");
-                d.version = rs.getInt("version");
-                d.arret   = rs.getString("arret");
-                d.points   = rs.getInt("points");
-                d.duree   = rs.getString("duree");
-                d.prologue = rs.getString("prologue");
-                d.epilogue   = rs.getString("epilogue");
-                d.commentaire = rs.getString("commentaire");
+                d.setDefi(rs.getString("defi"));
+                d.setTitre(rs.getString("titre"));
+                d.setDateDeCreation(rs.getString("dateDeCreation"));
+                d.setDescription(rs.getString("description"));
+                d.setAuteur(rs.getString("auteur"));
+                d.setCode_arret(rs.getString("code_arret"));
+                d.setType(rs.getString("type"));
+                d.setDateDeModification(rs.getString("dateDeModification"));
+                d.setVersion(rs.getInt("version"));
+                d.setArret(rs.getString("arret"));
+                d.setPoints(rs.getInt("points"));
+                d.setDuree(rs.getString("duree"));
+                d.setPrologue(rs.getString("prologue"));
+                d.setEpilogue(rs.getString("epilogue"));
+                d.setCommentaire(rs.getString("commentaire"));
                 L.add(d);
             }
             stmt.close();

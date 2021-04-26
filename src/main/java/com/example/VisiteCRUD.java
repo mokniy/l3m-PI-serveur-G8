@@ -53,7 +53,7 @@ public class VisiteCRUD {
             VisiteDAO visiteDAO = new VisiteDAO(connection);
             Visite v = visiteDAO.readWithId(id);
             connection.close();
-            if(v.id_vis.equals("null")) {
+            if(v.getId_vis().equals("null")) {
                 throw new Exception("Visite inexistante");
             } else {
                 return v;
@@ -76,10 +76,10 @@ public class VisiteCRUD {
     @PostMapping("/{visiteId}")
     Visite create(@PathVariable(value="visiteId") String id, @RequestBody Visite v, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(v.id_vis.equals(id)) {
+            if(v.getId_vis().equals(id)) {
                 VisiteDAO visiteDAO = new VisiteDAO(connection);
                 Visite vNew = visiteDAO.readWithId(id);
-                if(vNew.id_vis == null) {
+                if(vNew.getId_vis() == null) {
                     visiteDAO.create(v);
                     vNew = visiteDAO.readWithId(id);
                     connection.close();
@@ -107,10 +107,10 @@ public class VisiteCRUD {
     @PutMapping("/{visiteId}") 
     Visite update(@PathVariable(value="visiteId") String id, @RequestBody Visite v, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(v.id_vis.equals(id)) {
+            if(v.getId_vis().equals(id)) {
                 VisiteDAO visiteDAO = new VisiteDAO(connection);
                 Visite vNew = visiteDAO.readWithId(id);
-                if(vNew.id_vis == null) {
+                if(vNew.getId_vis() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     visiteDAO.update(v);
@@ -139,7 +139,7 @@ public class VisiteCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 VisiteDAO visiteDAO = new VisiteDAO(connection);
                 Visite vOld = visiteDAO.readWithId(id);
-                if(vOld.id_vis == null) {
+                if(vOld.getId_vis() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     visiteDAO.delete(vOld);

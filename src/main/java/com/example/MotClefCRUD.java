@@ -53,7 +53,7 @@ public class MotClefCRUD {
             MotClefDAO motClefsDAO = new MotClefDAO(connection);
             MotClef mc = motClefsDAO.readWithId(id);
             connection.close();
-            if(mc.id_mc.equals("null")) {
+            if(mc.getId_mc().equals("null")) {
                 throw new Exception("Mot Clef inexistant");
             } else {
                 return mc;
@@ -76,10 +76,10 @@ public class MotClefCRUD {
     @PostMapping("/{motclefId}")
     MotClef create(@PathVariable(value="motclefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(mc.id_mc.equals(id)) {
+            if(mc.getId_mc().equals(id)) {
                 MotClefDAO motClefsDAO = new MotClefDAO(connection);
                 MotClef mcNew = motClefsDAO.readWithId(id);
-                if(mcNew.id_mc == null) {
+                if(mcNew.getId_mc() == null) {
                     motClefsDAO.create(mc);
                     mcNew = motClefsDAO.readWithId(id);
                     connection.close();
@@ -107,10 +107,10 @@ public class MotClefCRUD {
     @PutMapping("/{motclefId}") 
     MotClef update(@PathVariable(value="motclefId") String id, @RequestBody MotClef mc, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(mc.id_mc.equals(id)) {
+            if(mc.getId_mc().equals(id)) {
                 MotClefDAO motClefsDAO = new MotClefDAO(connection);
                 MotClef mcNew = motClefsDAO.readWithId(id);
-                if(mcNew.id_mc == null) {
+                if(mcNew.getId_mc() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     motClefsDAO.update(mc);
@@ -139,7 +139,7 @@ public class MotClefCRUD {
         try (Connection connection = dataSource.getConnection()) {
             MotClefDAO motClefsDAO = new MotClefDAO(connection);
             MotClef mcOld = motClefsDAO.readWithId(id);
-            if(mcOld.id_mc == null) {
+            if(mcOld.getId_mc() == null) {
                 throw new Exception("ERROR404");
             } else {
                 motClefsDAO.delete(mcOld);

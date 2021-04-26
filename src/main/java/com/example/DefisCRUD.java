@@ -53,7 +53,7 @@ public class DefisCRUD {
             DefisDAO defisDAO = new DefisDAO(connection);
             Defis d = defisDAO.readWithId(id);
             connection.close();
-            if(d.defi.equals("null")) {
+            if(d.getDefi().equals("null")) {
                 throw new Exception("Defi inexistant");
             } else {
                 return d;
@@ -76,10 +76,10 @@ public class DefisCRUD {
     @PostMapping("/{defiId}")
     Defis create(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(d.defi.equals(id)) {
+            if(d.getDefi().equals(id)) {
                 DefisDAO defisDAO = new DefisDAO(connection);
                 Defis dNew = defisDAO.readWithId(id);
-                if(dNew.defi == null) {
+                if(dNew.getDefi() == null) {
                     defisDAO.create(d);
                     dNew = defisDAO.readWithId(id);
                     connection.close();
@@ -107,10 +107,10 @@ public class DefisCRUD {
     @PutMapping("/{defiId}") 
     Defis update(@PathVariable(value="defiId") String id, @RequestBody Defis d, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(d.defi.equals(id)) {
+            if(d.getDefi().equals(id)) {
                 DefisDAO defisDAO = new DefisDAO(connection);
                 Defis dNew = defisDAO.readWithId(id);
-                if(dNew.defi == null) {
+                if(dNew.getDefi() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     defisDAO.update(d);
@@ -139,7 +139,7 @@ public class DefisCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 DefisDAO defisDAO = new DefisDAO(connection);
                 Defis dOld = defisDAO.readWithId(id);
-                if(dOld.defi == null) {
+                if(dOld.getDefi() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     defisDAO.delete(dOld);

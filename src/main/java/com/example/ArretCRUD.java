@@ -71,7 +71,7 @@ public class ArretCRUD {
             ArretDAO arretDAO = new ArretDAO(connection);
             Arret a = arretDAO.readWithId_arr(id_arr);
             connection.close();
-            if(a.code.equals("null")) {
+            if(a.getCode().equals("null")) {
                 throw new Exception("Arret inexistant");
             } else {
                 return a;
@@ -94,10 +94,10 @@ public class ArretCRUD {
     @PostMapping("/{arretId}")
     Arret create(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(a.code.equals(id_arr)) {
+            if(a.getCode().equals(id_arr)) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.code == null) {
+                if(aNew.getCode() == null) {
                     arretDAO.create(a);
                     aNew = arretDAO.readWithId_arr(id_arr);
                     connection.close();
@@ -125,10 +125,10 @@ public class ArretCRUD {
     @PutMapping("/{arretId}") 
     Arret update(@PathVariable(value="arretId") String id_arr, @RequestBody Arret a, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
-            if(a.code.equals(id_arr)) {
+            if(a.getCode().equals(id_arr)) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aNew = arretDAO.readWithId_arr(id_arr);
-                if(aNew.code == null) {
+                if(aNew.getCode() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     arretDAO.update(a);
@@ -157,7 +157,7 @@ public class ArretCRUD {
         try (Connection connection = dataSource.getConnection()) {
                 ArretDAO arretDAO = new ArretDAO(connection);
                 Arret aOld = arretDAO.readWithId_arr(id_arr);
-                if(aOld.code == null) {
+                if(aOld.getCode() == null) {
                     throw new Exception("ERROR404");
                 } else {
                     arretDAO.delete(aOld);

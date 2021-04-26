@@ -19,7 +19,7 @@ public class ChercherDAO extends DAO<Chercher> {
     public boolean create(Chercher obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO chercher VALUES ('"+obj.id_defi+"','"+obj.id_mc+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO chercher VALUES ('"+obj.getId_defi()+"','"+obj.getId_mc()+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class ChercherDAO extends DAO<Chercher> {
     public boolean delete(Chercher obj) {
         int nb = 0;
         try {
-        nb = this.connect.createStatement().executeUpdate("DELETE FROM chercher WHERE id_defi ='"+obj.id_defi+"' AND id_mc = '"+obj.id_mc+"'");
+        nb = this.connect.createStatement().executeUpdate("DELETE FROM chercher WHERE id_defi ='"+obj.getId_defi()+"' AND id_mc = '"+obj.getId_mc()+"'");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,8 +66,8 @@ public class ChercherDAO extends DAO<Chercher> {
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM chercher WHERE id_defi = '"+id+"'");
         if (rs.next()) {
-            ch.id_defi = rs.getString("id_defi");
-            ch.id_mc = rs.getString("id_mc");
+            ch.setId_defi(rs.getString("id_defi"));
+            ch.setId_mc(rs.getString("id_mc"));
         }
         stmt.close();
         } catch (SQLException e) {
@@ -83,8 +83,8 @@ public class ChercherDAO extends DAO<Chercher> {
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM chercher WHERE id_mc = '"+id+"'");
         if (rs.next()) {
-            ch.id_defi = rs.getString("id_defi");
-            ch.id_mc = rs.getString("id_mc");
+            ch.setId_defi(rs.getString("id_defi"));
+            ch.setId_mc(rs.getString("id_mc"));
         }
         stmt.close();
         } catch (SQLException e) {
@@ -100,8 +100,8 @@ public class ChercherDAO extends DAO<Chercher> {
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM chercher WHERE id_defi = '"+id1+"' AND id_mc = '"+id2+"'");
         if (rs.next()) {
-            ch.id_defi = rs.getString("id_defi");
-            ch.id_mc = rs.getString("id_mc");
+            ch.setId_defi(rs.getString("id_defi"));
+            ch.setId_mc(rs.getString("id_mc"));
         }
         stmt.close();
         } catch (SQLException e) {
@@ -118,8 +118,8 @@ public class ChercherDAO extends DAO<Chercher> {
             ResultSet rs = stmt.executeQuery("SELECT * FROM chercher");
             while (rs.next()) {
                 Chercher ch = new Chercher();
-                ch.id_defi = rs.getString("id_defi");
-                ch.id_mc = rs.getString("id_mc");
+                ch.setId_defi(rs.getString("id_defi"));
+                ch.setId_mc(rs.getString("id_mc"));
                 L.add(ch);
             }
             stmt.close();
