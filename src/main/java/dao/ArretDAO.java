@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 
 import classes.Arret;
+import classes.Defis;
 
 public class ArretDAO extends DAO<Arret> {
 
@@ -88,6 +89,55 @@ public class ArretDAO extends DAO<Arret> {
         return a;
     }
     
+
+    /* ---- Retourne le nombre de défi présent à un arrêt  ---- */
+    public int getNbDefi(String code) {
+        int nb_defi = 0;
+        try {
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as nb_defi FROM defi WHERE code_arret = '"+code+"'");
+        if (rs.next()) {
+            nb_defi = rs.getInt("nb_defi");
+        }
+        stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nb_defi;
+    }
+
+    /* ---- Retourne les défi présent à un arrêt  ---- */
+    public ArrayList<Defis> getDefi(String code) {
+        ArrayList<Defis> L = new ArrayList<Defis>();
+        try {
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM ARRET inner join defi d2 on d2.code_arret = arret.code where code = '"+code+"'");
+        while (rs.next()) {
+            Defis d = new Defis();
+            d.defi = rs.getString("defi");
+            d.titre   = rs.getString("titre");
+            d.dateDeCreation   = rs.getString("dateDeCreation");
+            d.description   = rs.getString("description");
+            d.auteur   = rs.getString("auteur");
+            d.code_arret   = rs.getString("code_arret");
+            d.type = rs.getString("type");
+            d.dateDeModification = rs.getString("dateDeModification");
+            d.version = rs.getInt("version");
+            d.arret   = rs.getString("arret");
+            d.points   = rs.getInt("points");
+            d.duree   = rs.getString("duree");
+            d.prologue = rs.getString("prologue");
+            d.epilogue   = rs.getString("epilogue");
+            d.commentaire = rs.getString("commentaire");
+            L.add(d);
+        }
+        stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
+
     /* ---- Affichage de la liste de tous les éléments ---- */
     public ArrayList<Arret> readAllArret() {
         ArrayList<Arret> L = new ArrayList<Arret>();
