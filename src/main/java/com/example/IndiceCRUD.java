@@ -132,6 +132,41 @@ public class IndiceCRUD {
         }
     }
 
+    /* ---- Créé une liste d'éléments SANS ID ---- */
+    //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
+    //Renvoyer une erreur 412 si l'identifiant d'un indice dans l'URL n'est pas le même que celui d'un indice dans le corp de la requête.
+    @PostMapping("/list")
+    ArrayList<Indice> createListWithoutID(@RequestBody ArrayList<Indice> i, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            IndiceDAO indiceDAO = new IndiceDAO(connection);
+            ArrayList<Indice> L = new ArrayList<Indice>();
+            for (Indice indice : i) {
+                while (indiceDAO.indiceExist(indiceDAO.getCurrentIncrement()+1)) {
+                    indiceDAO.getNext();
+                }
+                String current_id = "IND"+(indiceDAO.getCurrentIncrement()+1);
+                Indice iNew = indiceDAO.readWithId(current_id);
+                if(iNew.getId_ind() == null) {
+                    indiceDAO.createSansID(indice);
+                    iNew = indiceDAO.readWithId(current_id);
+                    L.add(iNew);
+                } else {
+                    throw new Exception("ERROR403");
+                }
+            }
+            connection.close();
+            return L;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR412")) {
+                response.setStatus(412);
+            } else if(e.getMessage().equals("ERROR403")) {
+                response.setStatus(403);
+            }
+            return null;
+        }
+    }
+
     /* Update le indice dont l'id est donne dans le path */
     //Renvoyer une erreur 404 si l'identifiant du indice ne correspond pas à un indice dans la base.
     //Renvoyer une erreur 412 si l'identifiant du indice dans l'URL n'est pas le même que celui du indice dans le corps de la requête.
