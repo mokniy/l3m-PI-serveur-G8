@@ -135,11 +135,11 @@ public class ChercherDAO extends DAO<Chercher> {
     }
 
     /* ---- Affichage de la liste de tous les defis en fonction de id_mc ---- */
-    public ArrayList<Defis> readAllDefiWithId_mc(String id) {
+    public ArrayList<Defis> readAllDefiWithMot_mc(String mc) {
         ArrayList<Defis> L = new ArrayList<Defis>();
         try {
             Statement stmt = connect.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM defi INNER JOIN CHERCHER ON DEFI.defi=CHERCHER.id_defi WHERE id_mc = '"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM defi INNER JOIN CHERCHER ON DEFI.defi=CHERCHER.id_defi INNER JOIN MOT_CLEF ON CHERCHER.id_mc=MOT_CLEF.id_mc WHERE mot_mc = '"+mc+"'");
             while (rs.next()) {
                 Defis d = new Defis();
                 d.setDefi(rs.getString("defi"));

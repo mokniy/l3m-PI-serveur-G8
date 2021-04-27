@@ -49,11 +49,11 @@ public class ChercherCRUD {
     }
 
     /* ---- Rechercher la liste de tous les defis en fonction de id_mc de la base ---- */
-    @GetMapping("/alldefis/{mcId}")
-    ArrayList<Defis> allDefis(@PathVariable(value="mcId") String id,HttpServletResponse response) {
+    @GetMapping("/alldefis/{mc}")
+    ArrayList<Defis> allDefis(@PathVariable(value="mc") String mc,HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
-            ArrayList<Defis> L = chercherDAO.readAllDefiWithId_mc(id);
+            ArrayList<Defis> L = chercherDAO.readAllDefiWithMot_mc(mc);
             return L;
         } catch (Exception e) {
             response.setStatus(500);
