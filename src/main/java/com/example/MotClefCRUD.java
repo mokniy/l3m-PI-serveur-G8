@@ -136,6 +136,40 @@ public class MotClefCRUD {
         }
     }
 
+    /* ---- Créé une liste d'éléments SANS ID ---- */
+    //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
+    //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
+    @PostMapping("/list")
+    ArrayList<MotClef> createListWithoutID(@RequestBody ArrayList<MotClef> mc, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            MotClefDAO motClefsDAO = new MotClefDAO(connection);
+            ArrayList<MotClef> L = new ArrayList<MotClef>();
+            for (MotClef motClef : mc) {
+                while (motClefsDAO.motClefExist(motClefsDAO.getCurrentIncrement()+1)) {
+                    motClefsDAO.getNext();
+                }
+                String current_id = "MC"+(motClefsDAO.getCurrentIncrement()+1);
+                MotClef mcNew = motClefsDAO.readWithId(current_id);
+                if(mcNew.getId_mc() == null) {
+                    motClefsDAO.createSansID(motClef);
+                    mcNew = motClefsDAO.readWithId(current_id);
+                    L.add(mcNew);
+                } else {
+                    throw new Exception("ERROR403");
+                }
+            }
+            connection.close();
+            return L;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR412")) {
+                response.setStatus(412);
+            } else if(e.getMessage().equals("ERROR403")) {
+                response.setStatus(403);
+            }
+            return null;
+        }
+    }
 
     /* ---- Modifie un élément ---- */
     //Renvoyer une erreur 404 si l'identifiant du Mot clef ne correspond pas à un Mot clef dans la base.
