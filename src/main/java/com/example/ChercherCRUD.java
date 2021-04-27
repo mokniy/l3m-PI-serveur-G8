@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import dao.ChercherDAO;
+import dao.DefisDAO;
 //import com.example.DbConnection;
 //import com.example.RestServer;
 import classes.Chercher;
+import classes.Defis;
 
 @RestController
 @CrossOrigin
@@ -33,6 +35,25 @@ public class ChercherCRUD {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
             ArrayList<Chercher> L = chercherDAO.readAllChercher();
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /* ---- Rechercher la liste de tous les defis en fonction de id_mc de la base ---- */
+    @GetMapping("/alldefis/{mcId}")
+    ArrayList<Defis> allDefis(@PathVariable(value="mcId") String id,HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            ChercherDAO chercherDAO = new ChercherDAO(connection);
+            ArrayList<Defis> L = chercherDAO.readAllDefiWithId_mc(id);
             return L;
         } catch (Exception e) {
             response.setStatus(500);
