@@ -101,6 +101,37 @@ public class VisiteCRUD {
         }
     }
 
+    /* ---- Créé un élément SANS ID ---- */
+    //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
+    //Renvoyer une erreur 412 si l'identifiant d'une visite dans l'URL n'est pas le même que celui d'une visite dans le corp de la requête.
+    @PostMapping("/")
+    Visite createWithoutID(@RequestBody Visite v, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            VisiteDAO visiteDAO = new VisiteDAO(connection);
+            while (visiteDAO.VisiteExist(visiteDAO.getCurrentIncrement()+1)) {
+                visiteDAO.getNext();
+            }
+            String current_id = "V"+(visiteDAO.getCurrentIncrement()+1);
+            Visite vNew = visiteDAO.readWithId(current_id);
+            if(vNew.getId_vis() == null) {
+                visiteDAO.createSansID(v);
+                vNew = visiteDAO.readWithId(current_id);
+                connection.close();
+                return vNew;
+            } else {
+                throw new Exception("ERROR403");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR412")) {
+                response.setStatus(412);
+            } else if(e.getMessage().equals("ERROR403")) {
+                response.setStatus(403);
+            }
+            return null;
+        }
+    }
+
     /* Update la visite dont l'id est donne dans le path */
     //Renvoyer une erreur 404 si l'identifiant de visite ne correspond pas à une visite dans la base.
     //Renvoyer une erreur 412 si l'identifiant de Visite dans l'URL n'est pas le même que celui de Visite dans le corp de la requête.

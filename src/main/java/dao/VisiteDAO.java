@@ -30,6 +30,22 @@ public class VisiteDAO extends DAO<Visite> {
         }
     }
 
+    /* ---- Création d'une nouvelle visite SANS ID ---- */
+    
+    public boolean createSansID(Visite obj){
+        int nb = 0;
+        try {
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO visite (libelle_vis, date_vis, mode_vis, statut_vis, pts_vis, score_vis, temps_vis, id_visiteur, id_defis, commentaire) VALUES ('"+obj.getLibelle_vis()+"','"+obj.getDate_vis()+"','"+obj.getMode_vis()+"','"+obj.getStatut_vis()+"',"+obj.getPts_vis()+","+obj.getScore_vis()+",'"+obj.getTemps_vis()+"','"+obj.getId_visiteur()+"','"+obj.getId_defi()+"','"+obj.getCommentaire()+"')");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public Visite read(int id) {
         return null;
@@ -123,4 +139,54 @@ public class VisiteDAO extends DAO<Visite> {
         }
         return L;
     }
+
+    public Integer getCurrentIncrement(){
+        //String id = "V";
+        Integer lv = 0;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT last_value FROM seq_vis");
+            if (rs.next()) {
+                lv = rs.getInt("last_value");
+            }
+            
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lv;
+    }
+
+    public Integer getNext(){
+        //String id = "QST";
+        Integer lv = 0;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("select nextval('seq_vis')");
+            if (rs.next()) {
+                lv = rs.getInt("nextval");
+            }
+            
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lv;
+    }
+
+    public boolean VisiteExist(Integer id) {
+        boolean res = false;
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM visite where id_vis = 'V"+id+"'");
+            if (rs.next()) {
+                res = true;
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
 }
