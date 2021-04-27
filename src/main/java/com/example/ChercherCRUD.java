@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import dao.ChercherDAO;
 import dao.DefisDAO;
+import dao.MotClefDAO;
 //import com.example.DbConnection;
 //import com.example.RestServer;
 import classes.Chercher;
 import classes.Defis;
+import classes.MotClef;
 
 @RestController
 @CrossOrigin
@@ -54,6 +56,25 @@ public class ChercherCRUD {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
             ArrayList<Defis> L = chercherDAO.readAllDefiWithMot_mc(mc);
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /* ---- Rechercher la liste de tous les mots clefs en fonction de id_defi de la base ---- */
+    @GetMapping("/allmc/{defiId}")
+    ArrayList<MotClef> allMotClefs(@PathVariable(value="defiId") String id,HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            ChercherDAO chercherDAO = new ChercherDAO(connection);
+            ArrayList<MotClef> L = chercherDAO.readAllDefiWithId_defi(id);
             return L;
         } catch (Exception e) {
             response.setStatus(500);

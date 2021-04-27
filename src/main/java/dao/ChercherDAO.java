@@ -167,5 +167,25 @@ public class ChercherDAO extends DAO<Chercher> {
         return L;
     }
 
+    /* ---- Affichage de la liste de tous les defis en fonction de id_mc ---- */
+    public ArrayList<MotClef> readAllDefiWithId_defi(String id) {
+        ArrayList<MotClef> L = new ArrayList<MotClef>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM mot_clef INNER JOIN CHERCHER ON mot_clef.id_mc=CHERCHER.id_mc INNER JOIN defi ON CHERCHER.id_defi=DEFI.defi WHERE defi = '"+id+"'");
+            while (rs.next()) {
+                MotClef mc = new MotClef();
+                mc.setId_mc(rs.getString("id_mc"));
+                mc.setMot_mc(rs.getString("mot_mc"));
+                L.add(mc);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
+
     
 }
