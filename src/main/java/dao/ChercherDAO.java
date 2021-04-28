@@ -55,6 +55,7 @@ public class ChercherDAO extends DAO<Chercher> {
         }
     }
 
+    
     @Override
     public boolean update(Chercher obj) {
             return false;
@@ -127,7 +128,6 @@ public class ChercherDAO extends DAO<Chercher> {
                 L.add(ch);
             }
             stmt.close();
-            connect.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -186,6 +186,27 @@ public class ChercherDAO extends DAO<Chercher> {
         }
         return L;
     }
+    
+    /* 
+    public ArrayList<MotClef> readAllMcIdWithId_defi(String id) {
+        ArrayList<MotClef> L = new ArrayList<MotClef>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM chercher WHERE id_defi = '"+id+"'");
+            while (rs.next()) {
+                MotClef mc = new MotClef();
+                mc.setId_mc(rs.getString("id_mc"));
+                mc.setMot_mc("");
+                L.add(mc);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
+     */
 
     
 }

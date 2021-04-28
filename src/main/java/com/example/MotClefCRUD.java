@@ -18,6 +18,8 @@ import dao.MotClefDAO;
 //import com.example.DbConnection;
 //import com.example.RestServer;
 import classes.MotClef;
+import classes.Chercher;
+import dao.ChercherDAO;
 
 @RestController
 @CrossOrigin
@@ -223,4 +225,70 @@ public class MotClefCRUD {
         }
 
     }
+
+    
+    //Renvoyer une erreur 404 si l'identifiant d'un mot clef ne correspond pas à un mot clef dans la base.
+    @DeleteMapping("/deleteallmotclef/{Id_defi}")
+    void deleteAllMotClefWithId_defi(@PathVariable(value="Id_defi") String id, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            MotClefDAO motclefDAO = new MotClefDAO(connection);
+            ChercherDAO chercherDAO = new ChercherDAO(connection);
+            ArrayList<Chercher> L = chercherDAO.readAllChercher();
+            int found = 0;
+            for (Chercher chercher : L) {
+                if(chercher.getId_defi().equalsIgnoreCase(id))  {
+                    found = 1;
+                }
+            }
+            if (found == 0){
+                throw new Exception("ERROR404");
+            }
+            else{
+                motclefDAO.deleteWithId_defi(id);
+                connection.close();
+            }
+            
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR404")) {
+                response.setStatus(404);
+            }
+        }
+
+    }
+
+    
+    /*
+    //Renvoyer une erreur 404 si l'identifiant d'une question ne correspond pas à une question dans la base.
+    @DeleteMapping("/deleteallmotclef/{Id_defi}")
+    void deleteAllMotClefWithId_defi(@PathVariable(value="Id_defi") String id, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            ChercherDAO chercherDAO = new ChercherDAO(connection);
+            MotClefDAO motclefDAO = new MotClefDAO(connection);
+            ArrayList<MotClef> L = chercherDAO.readAllMcIdWithId_defi(id);
+            int found = 0;
+            if(L.size() > 0 ) {
+                found = 1;
+            }
+
+            if (found == 0){
+                throw new Exception("ERROR404");
+            }
+            else{
+                for(MotClef m : L) {
+                    motclefDAO.delete(m);
+                }
+                connection.close();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR404")) {
+                response.setStatus(404);
+            }
+        }
+
+    }*/
+
+
+
 }

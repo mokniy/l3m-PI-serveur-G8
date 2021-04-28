@@ -37,6 +37,7 @@ public class ChercherCRUD {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
             ArrayList<Chercher> L = chercherDAO.readAllChercher();
+            connection.close();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -220,4 +221,5 @@ public class ChercherCRUD {
         }
 
     }
+
 }
