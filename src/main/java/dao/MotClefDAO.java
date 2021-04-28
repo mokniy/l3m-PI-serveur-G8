@@ -84,24 +84,7 @@ public class MotClefDAO extends DAO<MotClef> {
             return false;
         }
     }
-
     
-    
-    public boolean deleteWithId_defi(String iddefi) {
-        int nb = 0;
-        try {
-        nb = this.connect.createStatement().executeUpdate("DELETE FROM mot_clef USING chercher WHERE mot_clef.id_mc=chercher.id_mc and chercher.id_defi = '"+iddefi+"';");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if(nb==1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /* ---- Lecture d'un mot clef selon son id ---- */
     public MotClef readWithId(String id) {
         MotClef mc = new MotClef();

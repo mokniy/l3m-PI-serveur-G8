@@ -187,7 +187,6 @@ public class ChercherDAO extends DAO<Chercher> {
         return L;
     }
     
-    /* 
     public ArrayList<MotClef> readAllMcIdWithId_defi(String id) {
         ArrayList<MotClef> L = new ArrayList<MotClef>();
         try {
@@ -200,13 +199,11 @@ public class ChercherDAO extends DAO<Chercher> {
                 L.add(mc);
             }
             stmt.close();
-            connect.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return L;
     }
-     */
 
     
 }
