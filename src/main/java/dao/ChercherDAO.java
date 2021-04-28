@@ -167,8 +167,8 @@ public class ChercherDAO extends DAO<Chercher> {
         return L;
     }
 
-    /* ---- Affichage de la liste de tous les defis en fonction de id_mc ---- */
-    public ArrayList<MotClef> readAllDefiWithId_defi(String id) {
+    /* ---- Affichage de la liste de tous les mots clefs en fonction de id_defi ---- */
+    public ArrayList<MotClef> readAllMcWithId_defi(String id) {
         ArrayList<MotClef> L = new ArrayList<MotClef>();
         try {
             Statement stmt = connect.createStatement();

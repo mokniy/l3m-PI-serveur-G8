@@ -33,6 +33,26 @@ public class IndiceCRUD {
         try (Connection connection = dataSource.getConnection()) {
             IndiceDAO indice = new IndiceDAO(connection);
             ArrayList<Indice> L = indice.readAllIndice();
+            connection.close();
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /* ---- Rechercher la liste de tous les indices en fonction de l'id de defi de la base ---- */
+    @GetMapping("/allindice/{Id_defi}")
+    ArrayList<Indice> allIndiceWithId_defi(@PathVariable(value="Id_defi") String id,HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            IndiceDAO indiceDAO = new IndiceDAO(connection);
+            ArrayList<Indice> L = indiceDAO.readAllIndiceWithId_defi(id);
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -219,4 +239,34 @@ public class IndiceCRUD {
         }
 
     }
+
+    /* ---- Supprime la liste de indices en fonction de id_defi ---- */
+    //Renvoyer une erreur 404 si l'identifiant d'une question ne correspond pas à une question dans la base.
+    @DeleteMapping("/deleteallindice/{Id_defi}")
+    void deleteAllQuestionWithId_defi(@PathVariable(value="Id_defi") String id, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            IndiceDAO indiceDAO = new IndiceDAO(connection);
+            ArrayList<Indice> L = indiceDAO.readAllIndice();
+            int found = 0;
+            for (Indice indice : L) {
+                if(indice.getId_defi().equalsIgnoreCase(id))  {
+                    found = 1;
+                }
+            }
+            if (found == 0){
+                throw new Exception("ERROR404");
+            }
+            else{
+                indiceDAO.deleteWithId_defi(id);
+                connection.close();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR404")) {
+                response.setStatus(404);
+            }
+        }
+
+    }
+
 }

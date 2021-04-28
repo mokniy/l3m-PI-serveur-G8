@@ -33,6 +33,7 @@ public class QuestionCRUD {
         try (Connection connection = dataSource.getConnection()) {
             QuestionDAO questions = new QuestionDAO(connection);
             ArrayList<Question> L = questions.readAllQuestion();
+            connection.close();
             return L;
         } catch (Exception e) {
             response.setStatus(500);
@@ -46,7 +47,25 @@ public class QuestionCRUD {
         }
     }
 
-    
+    /* ---- Rechercher la liste de toutes les questions en fonction de l'id de defi de la base ---- */
+    @GetMapping("/allquestion/{Id_defi}")
+    ArrayList<Question> allQuestionWithId_defi(@PathVariable(value="Id_defi") String id,HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            QuestionDAO questionDAO = new QuestionDAO(connection);
+            ArrayList<Question> L = questionDAO.readAllQuestionWithId_defi(id);
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
     /* ---- Cherche une question ---- */
     
     @GetMapping("/{Id_qst}")
@@ -223,4 +242,36 @@ public class QuestionCRUD {
         }
 
     }
+
+
+    /* ---- Supprime la liste de questions en fonction de id_defi ---- */
+    //Renvoyer une erreur 404 si l'identifiant d'une question ne correspond pas à une question dans la base.
+    @DeleteMapping("/deleteallquestion/{Id_defi}")
+    void deleteAllQuestionWithId_defi(@PathVariable(value="Id_defi") String id, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            QuestionDAO questionDAO = new QuestionDAO(connection);
+            ArrayList<Question> L = questionDAO.readAllQuestion();
+            int found = 0;
+            for (Question question : L) {
+                if(question.getId_defi().equalsIgnoreCase(id))  {
+                    found = 1;
+                }
+            }
+            if (found == 0){
+                throw new Exception("ERROR404");
+            }
+            else{
+                questionDAO.deleteWithId_defi(id);
+                connection.close();
+            }
+            
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if(e.getMessage().equals("ERROR404")) {
+                response.setStatus(404);
+            }
+        }
+
+    }
+
 }

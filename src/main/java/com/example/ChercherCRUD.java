@@ -74,7 +74,7 @@ public class ChercherCRUD {
     ArrayList<MotClef> allMotClefs(@PathVariable(value="defiId") String id,HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             ChercherDAO chercherDAO = new ChercherDAO(connection);
-            ArrayList<MotClef> L = chercherDAO.readAllDefiWithId_defi(id);
+            ArrayList<MotClef> L = chercherDAO.readAllMcWithId_defi(id);
             return L;
         } catch (Exception e) {
             response.setStatus(500);

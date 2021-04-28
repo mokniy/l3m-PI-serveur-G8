@@ -85,6 +85,22 @@ public class QuestionDAO extends DAO<Question> {
         }
     }
 
+    /* ---- Suppression la liste des questions en fonction de id_defi ---- */
+    public boolean deleteWithId_defi(String iddefi) {
+        int nb = 0;
+        try {
+        nb = this.connect.createStatement().executeUpdate("DELETE FROM question WHERE id_defi ='"+iddefi+"'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /* ---- Lecture d'une question selon son id ---- */
     public Question readWithId(String id) {
         Question q = new Question();
@@ -123,7 +139,7 @@ public class QuestionDAO extends DAO<Question> {
                 L.add(q);
             }
             stmt.close();
-            connect.close();
+            //connect.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -177,6 +193,30 @@ public class QuestionDAO extends DAO<Question> {
             e.printStackTrace();
         }
         return res;
+    }
+
+    /* ---- Affichage de la liste de toutes les questions en fonction de l'id de defi ---- */
+    public ArrayList<Question> readAllQuestionWithId_defi(String id) {
+        ArrayList<Question> L = new ArrayList<Question>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM QUESTION WHERE id_defi = '"+id+"'");
+            while (rs.next()) {
+                Question q = new Question();
+                q.setId_qst(rs.getString("id_qst"));
+                q.setLabel_qst(rs.getString("label_qst"));
+                q.setDescription_qst(rs.getString("description_qst"));
+                q.setSecret_qst(rs.getString("secret_qst"));
+                q.setPoints_qst(rs.getInt("points_qst"));
+                q.setId_defi(rs.getString("id_defi"));
+                L.add(q);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
     }
 
 }

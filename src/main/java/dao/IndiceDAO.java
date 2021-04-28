@@ -82,6 +82,22 @@ public class IndiceDAO extends DAO<Indice> {
         }
     }
 
+    /* ---- Suppression la liste des questions en fonction de id_defi ---- */
+    public boolean deleteWithId_defi(String iddefi) {
+        int nb = 0;
+        try {
+        nb = this.connect.createStatement().executeUpdate("DELETE FROM indice WHERE id_defi ='"+iddefi+"'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(nb==1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*------- Lecture d'une Indice selon son id ---------------*/
     public Indice readWithId(String id) {
         Indice i = new Indice();
@@ -118,7 +134,7 @@ public class IndiceDAO extends DAO<Indice> {
                 L.add(i);
             }
             stmt.close();
-            connect.close();
+            //connect.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -171,4 +187,28 @@ public class IndiceDAO extends DAO<Indice> {
         }
         return res;
     }
+
+    /* ---- Affichage de la liste de tous les indices en fonction de l'id de defi ---- */
+    public ArrayList<Indice> readAllIndiceWithId_defi(String id) {
+        ArrayList<Indice> L = new ArrayList<Indice>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM indice WHERE id_defi = '"+id+"'");
+            while (rs.next()) {
+                Indice i = new Indice();
+                i.setId_ind(rs.getString("id_ind"));
+                i.setLabel_ind(rs.getString("label_ind"));
+                i.setDescription_ind(rs.getString("description_ind"));
+                i.setPoints_ind(rs.getInt("points_ind"));
+                i.setId_defi(rs.getString("id_defi"));
+                L.add(i);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
+
 }
