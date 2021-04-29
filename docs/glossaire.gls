@@ -24,10 +24,11 @@ Chamis
 Defi
     | Un `Defi` est une description textuelle.
     | Ces `Defi`s sont ajoutés par les `Chamis`
-    | Un `Defi` peut avoir un  `Arret` comme référence.
+    | Un `Defi` a un  `Arret` comme référence.
     | Un `Defi` peut aussi avoir plusieurs `Mot Clef` qui le définissent, ce qui
     | permet au `Chamis` de `Chercher` un `Defi` grâce à des `Mot Clef`.
-    |
+    | Un `Defi` peut comporter une ou plusieurs `Question`s.
+    | Un `Defi` peut aussi comporter un ou plusieurs `Indice`s.
 
 Arret
     | Un `Arret` est une description textuelle. 
@@ -36,7 +37,7 @@ Arret
     | 
 
 Mot clef
-    | Un `Mot Clef` est utile lorsque l’on souhaite référencer un `Defi`.
+    | Un `Mot Clef` est utile lorsque l’on souhaite référencer un ou plusieurs `Defi`s.
     | Un `Chamis` peut ‘Chercher’ un `Defi` en rentrant des `Mot Clef`.
     | 
                
@@ -47,7 +48,18 @@ Chercher
 Visite
     | Une `Visite` correspond aux tentatives (fructueuses où non) de relever les
     | `Defi`s en allant visiter le point du défi.
-    | Lorsqu'un `Chamis` va sur le terrain pour relever un `Défi` on dit qu'il  a fait une `Visite`.
+    | Lorsqu'un `Chamis` va sur le terrain pour relever un `Défi`, on dit qu'il a fait une `Visite`.
     | 
 
+Question
+    | Une `Question` fait partie d'un `Defi`. 
+    | Une `Question` sert d'évaluation pour un `Defi`. 
+    | Une `Question` peut faire gagner des points au `Chamis` s'il répond correctement.
+    | Il peut y avoir plusieurs `Question` pour un même `Defi`.
 
+Indice
+    | Un `Indice` fait partie d'un `Defi`.
+    | Un `Indice` permet de mieux comprendre le `Defi`.
+    | Un `Indice` fait perdre des points au `Chamis` s'il est utilisé.
+    | Il peut y avoir plusieurs `Indice`s pour un même `Defi`.
+    
