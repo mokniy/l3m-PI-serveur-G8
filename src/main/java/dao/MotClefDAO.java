@@ -122,6 +122,7 @@ public class MotClefDAO extends DAO<MotClef> {
         return L;
     }
     
+    /* ---- Retourne la derniere valeur de la sequence seq_mc ---- */
     public Integer getCurrentIncrement(){
         //String id = "MC";
         Integer lv = 0;
@@ -139,6 +140,7 @@ public class MotClefDAO extends DAO<MotClef> {
         return lv;
     }
 
+    /* ---- Incremente et retourne la valeur de la sequence seq_mc ---- */
     public Integer getNext(){
         //String id = "MC";
         Integer lv = 0;
@@ -156,6 +158,7 @@ public class MotClefDAO extends DAO<MotClef> {
         return lv;
     }
 
+    /* ---- retourne true si l'id en parametre existe ---- */
     public boolean motClefExist(Integer id) {
         boolean res = false;
         try {

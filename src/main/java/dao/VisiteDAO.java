@@ -140,6 +140,7 @@ public class VisiteDAO extends DAO<Visite> {
         return L;
     }
 
+    /* ---- Retourne la derniere valeur de la sequence seq_vis ---- */
     public Integer getCurrentIncrement(){
         //String id = "V";
         Integer lv = 0;
@@ -157,6 +158,7 @@ public class VisiteDAO extends DAO<Visite> {
         return lv;
     }
 
+    /* ---- Incremente et retourne la valeur de la sequence seq_vis ---- */
     public Integer getNext(){
         //String id = "QST";
         Integer lv = 0;
@@ -174,6 +176,7 @@ public class VisiteDAO extends DAO<Visite> {
         return lv;
     }
 
+    /* ---- retourne true si l'id en parametre existe ---- */
     public boolean VisiteExist(Integer id) {
         boolean res = false;
         try {

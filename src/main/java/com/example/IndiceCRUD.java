@@ -90,7 +90,7 @@ public class IndiceCRUD {
         }
     }
 
-    /* Creer une Indice */
+    /* Creer un Indice */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant de l'indice dans l'URL n'est pas le même que celui de l'indice dans le corps de la requête.
     @PostMapping("/{idInd}")
@@ -121,7 +121,7 @@ public class IndiceCRUD {
         }
     }
 
-    /* ---- Créé un élément SANS ID ---- */
+    /* ---- Créé un indice SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du indice dans l'URL n'est pas le même que celui du indice dans le corp de la requête.
     @PostMapping("/")
@@ -152,7 +152,7 @@ public class IndiceCRUD {
         }
     }
 
-    /* ---- Créé une liste d'éléments SANS ID ---- */
+    /* ---- Créé une liste d'indices SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant d'un indice dans l'URL n'est pas le même que celui d'un indice dans le corp de la requête.
     @PostMapping("/list")
@@ -187,7 +187,7 @@ public class IndiceCRUD {
         }
     }
 
-    /* Update le indice dont l'id est donne dans le path */
+    /* Update l'indice dont l'id est donne dans le path */
     //Renvoyer une erreur 404 si l'identifiant du indice ne correspond pas à un indice dans la base.
     //Renvoyer une erreur 412 si l'identifiant du indice dans l'URL n'est pas le même que celui du indice dans le corps de la requête.
     @PutMapping("/{indiceId}") 
@@ -218,7 +218,7 @@ public class IndiceCRUD {
         }
     }
 
-    /* delete le indice dont l'id est donne dans le path */
+    /* Delete l'indice dont l'id est donne dans le path */
     //Renvoyer une erreur 404 si l'identifiant du indice ne correspond pas à un indice dans la base.
     @DeleteMapping("/{indiceId}")
     void delete(@PathVariable(value="indiceId") String id, HttpServletResponse response) {
@@ -240,10 +240,10 @@ public class IndiceCRUD {
 
     }
 
-    /* ---- Supprime la liste de indices en fonction de id_defi ---- */
+    /* ---- Supprime la liste d'indices en fonction de id_defi ---- */
     //Renvoyer une erreur 404 si l'identifiant d'une question ne correspond pas à une question dans la base.
     @DeleteMapping("/deleteallindice/{Id_defi}")
-    void deleteAllQuestionWithId_defi(@PathVariable(value="Id_defi") String id, HttpServletResponse response) {
+    void deleteAllIndiceWithId_defi(@PathVariable(value="Id_defi") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
             IndiceDAO indiceDAO = new IndiceDAO(connection);
             ArrayList<Indice> L = indiceDAO.readAllIndice();

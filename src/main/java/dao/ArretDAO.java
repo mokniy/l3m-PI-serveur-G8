@@ -159,6 +159,7 @@ public class ArretDAO extends DAO<Arret> {
         return L;
     }
     
+    /* ---- Affichage de la liste de tous les arrets qui ont au moins un defi ---- */
     public ArrayList<Arret> readAllArretInDefi() {
         ArrayList<Arret> L = new ArrayList<Arret>();
         try {

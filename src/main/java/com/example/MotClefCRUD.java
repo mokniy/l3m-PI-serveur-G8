@@ -49,7 +49,7 @@ public class MotClefCRUD {
     }
 
     
-    /* ---- Cherche un élément ---- */
+    /* ---- Cherche un mot_clef ---- */
     
     @GetMapping("/{motclefId}")
     MotClef read(@PathVariable(value="motclefId") String id, HttpServletResponse response) {
@@ -75,7 +75,7 @@ public class MotClefCRUD {
     }
     
 
-    /* ---- Créé un élément ---- */
+    /* ---- Créé un mot_clef ---- */
     
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
@@ -107,7 +107,7 @@ public class MotClefCRUD {
         }
     }
     
-    /* ---- Créé un élément SANS ID ---- */
+    /* ---- Créé un mot_clef SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
     @PostMapping("/")
@@ -138,7 +138,7 @@ public class MotClefCRUD {
         }
     }
 
-    /* ---- Créé une liste d'éléments SANS ID ---- */
+    /* ---- Créé une liste de mot_clef SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
     @PostMapping("/list")
@@ -173,7 +173,7 @@ public class MotClefCRUD {
         }
     }
 
-    /* ---- Modifie un élément ---- */
+    /* ---- Modifie un mot_clef ---- */
     //Renvoyer une erreur 404 si l'identifiant du Mot clef ne correspond pas à un Mot clef dans la base.
     //Renvoyer une erreur 412 si l'identifiant du Mot clef dans l'URL n'est pas le même que celui du Mot clef dans le corp de la requête.
     @PutMapping("/{motclefId}") 
@@ -204,7 +204,7 @@ public class MotClefCRUD {
         }
     }
 
-    /* ---- Supprime un élément ---- */
+    /* ---- Supprime un mot_clef ---- */
     //Renvoyer une erreur 404 si l'identifiant du Mot clef ne correspond pas à un Mot clef dans la base.
     @DeleteMapping("/{motclefId}")
     void delete(@PathVariable(value="motclefId") String id, HttpServletResponse response) {
@@ -226,7 +226,7 @@ public class MotClefCRUD {
 
     }
 
-    
+    /* Supprime tous les mot_clef en fonction de l'id_defi */
     //Renvoyer une erreur 404 si l'identifiant d'une question ne correspond pas à une question dans la base.
     @DeleteMapping("/deleteallmotclef/{Id_defi}")
     void deleteAllMotClefWithId_defi(@PathVariable(value="Id_defi") String id, HttpServletResponse response) {

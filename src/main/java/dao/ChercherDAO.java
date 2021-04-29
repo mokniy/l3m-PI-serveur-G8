@@ -187,6 +187,7 @@ public class ChercherDAO extends DAO<Chercher> {
         return L;
     }
     
+    /* ---- Affichage de la liste de tous les Id_mc selon l'id defi en parametre ---- */
     public ArrayList<MotClef> readAllMcIdWithId_defi(String id) {
         ArrayList<MotClef> L = new ArrayList<MotClef>();
         try {

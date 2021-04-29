@@ -146,6 +146,7 @@ public class QuestionDAO extends DAO<Question> {
         return L;
     }
     
+    /* ---- Retourne la derniere valeur de la sequence seq_qst ---- */
     public Integer getCurrentIncrement(){
         //String id = "QST";
         Integer lv = 0;
@@ -163,6 +164,7 @@ public class QuestionDAO extends DAO<Question> {
         return lv;
     }
 
+    /* ---- Incremente et retourne la derniere valeur de la sequence seq_qst ---- */
     public Integer getNext(){
         //String id = "QST";
         Integer lv = 0;
@@ -180,6 +182,7 @@ public class QuestionDAO extends DAO<Question> {
         return lv;
     }
 
+    /* ---- retourne true si l'id en parametre existe ---- */
     public boolean QuestionExist(Integer id) {
         boolean res = false;
         try {

@@ -47,6 +47,7 @@ public class QuestionCRUD {
         }
     }
 
+    /* Cherche toutes les questions en fonction de l'id_defi */
     /* ---- Rechercher la liste de toutes les questions en fonction de l'id de defi de la base ---- */
     @GetMapping("/allquestion/{Id_defi}")
     ArrayList<Question> allQuestionWithId_defi(@PathVariable(value="Id_defi") String id,HttpServletResponse response) {
@@ -67,7 +68,6 @@ public class QuestionCRUD {
     }
 
     /* ---- Cherche une question ---- */
-    
     @GetMapping("/{Id_qst}")
     Question read(@PathVariable(value="Id_qst") String id, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {
@@ -93,7 +93,6 @@ public class QuestionCRUD {
     
 
     /* ---- Créé une question ---- */
-    
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant d'une question dans l'URL n'est pas le même que celui d'une question dans le corp de la requête.
     @PostMapping("/{Id_qst}")
@@ -124,7 +123,7 @@ public class QuestionCRUD {
         }
     }
     
-    /* ---- Créé un élément SANS ID ---- */
+    /* ---- Créé une question SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant d'une question dans l'URL n'est pas le même que celui d'une question dans le corp de la requête.
     @PostMapping("/")
@@ -155,7 +154,7 @@ public class QuestionCRUD {
         }
     }
 
-    /* ---- Créé une liste d'éléments SANS ID ---- */
+    /* ---- Créé une liste de questions SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant d'une question dans l'URL n'est pas le même que celui d'une question dans le corp de la requête.
     @PostMapping("/list")
@@ -190,7 +189,7 @@ public class QuestionCRUD {
         }
     }
 
-    /* ---- Modifie un élément ---- */
+    /* ---- Modifie une question ---- */
     //Renvoyer une erreur 404 si l'identifiant d'une question ne correspond pas à une question dans la base.
     //Renvoyer une erreur 412 si l'identifiant d'une question dans l'URL n'est pas le même que celui d'une question dans le corp de la requête.
     @PutMapping("/{Id_qst}") 
@@ -221,7 +220,7 @@ public class QuestionCRUD {
         }
     }
 
-    /* ---- Supprime un élément ---- */
+    /* ---- Supprime une question ---- */
     //Renvoyer une erreur 404 si l'identifiant d'une question ne correspond pas à une question dans la base.
     @DeleteMapping("/{Id_qst}")
     void delete(@PathVariable(value="Id_qst") String id, HttpServletResponse response) {

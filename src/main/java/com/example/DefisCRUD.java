@@ -101,7 +101,7 @@ public class DefisCRUD {
         }
     }
 
-    /* ---- Créé un élément SANS ID ---- */
+    /* ---- Créé un defi SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant du Mot Clef dans l'URL n'est pas le même que celui du Mot Clef dans le corp de la requête.
     @PostMapping("/")
@@ -163,7 +163,7 @@ public class DefisCRUD {
         }
     }
 
-    /* delete le defi dont l'id est donne dans le path */
+    /* Delete le defi dont l'id est donne dans le path */
     //Renvoyer une erreur 404 si l'identifiant du defi ne correspond pas à un defi dans la base.
     @DeleteMapping("/{defiId}")
     void delete(@PathVariable(value="defiId") String id, HttpServletResponse response) {
@@ -185,6 +185,7 @@ public class DefisCRUD {
 
     }
 
+    /* Cherche tous les defis en fonction de l'id_auteur */
     @GetMapping("/auteur/{auteurId}")
     ArrayList<Defis> allDefisByAuteur(@PathVariable(value="auteurId") String auteur, HttpServletResponse response) {
         try (Connection connection = dataSource.getConnection()) {

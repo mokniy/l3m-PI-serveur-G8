@@ -101,7 +101,7 @@ public class VisiteCRUD {
         }
     }
 
-    /* ---- Créé un élément SANS ID ---- */
+    /* ---- Créé une visite SANS ID ---- */
     //Renvoyez une erreur 403 si une ressource existe déjà avec le même identifiant.
     //Renvoyer une erreur 412 si l'identifiant d'une visite dans l'URL n'est pas le même que celui d'une visite dans le corp de la requête.
     @PostMapping("/")

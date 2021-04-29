@@ -150,6 +150,7 @@ public class DefisDAO extends DAO<Defis> {
         return L;
     }
 
+    /* ---- Affichage de la liste de tous les defis selon l'auteur en parametre ---- */
     public ArrayList<Defis> readAllDefisByAuteur(String auteur) {
         ArrayList<Defis> L = new ArrayList<Defis>();
         try {
@@ -182,6 +183,7 @@ public class DefisDAO extends DAO<Defis> {
         return L;
     }
 
+    /* ---- Retourne la derniere valeur de la sequence seq_def ---- */
     public Integer getCurrentIncrement(){
         Integer lv = 0;
         try {
@@ -198,6 +200,7 @@ public class DefisDAO extends DAO<Defis> {
         return lv;
     }
 
+    /* ---- Incremente puis retourne la valeur de la sequence seq_def ---- */
     public Integer getNext(){
         Integer lv = 0;
         try {
@@ -214,6 +217,7 @@ public class DefisDAO extends DAO<Defis> {
         return lv;
     }
 
+    /* ---- retourne true si l'id en parametre existe ---- */
     public boolean defiExist(Integer id) {
         boolean res = false;
         try {

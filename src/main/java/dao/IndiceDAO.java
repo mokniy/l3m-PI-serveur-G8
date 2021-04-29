@@ -13,7 +13,7 @@ public class IndiceDAO extends DAO<Indice> {
     public IndiceDAO(Connection conn) {
         super(conn);
     }
-    /*-------creation d'une nouvelle Indice ---------------*/
+    /*-------creation d'un nouvel Indice ---------------*/
     @Override
     public boolean create(Indice obj){
         int nb = 0;
@@ -49,7 +49,7 @@ public class IndiceDAO extends DAO<Indice> {
     public Indice read(int id) {
         return null;
     }
-    /*-------Mise à jour d'une Indice ---------------*/
+    /*-------Mise à jour d'un Indice ---------------*/
     @Override
     public boolean update(Indice obj) {
         int nb = 0;
@@ -65,7 +65,7 @@ public class IndiceDAO extends DAO<Indice> {
             return false;
         }
     }
-    /*-------suppression d'une Indice ---------------*/
+    /*-------suppression d'un Indice ---------------*/
     @Override
     public boolean delete(Indice obj) {
         int nb = 0;
@@ -82,7 +82,7 @@ public class IndiceDAO extends DAO<Indice> {
         }
     }
 
-    /* ---- Suppression la liste des questions en fonction de id_defi ---- */
+    /* ---- Suppression de la liste des indices en fonction de id_defi ---- */
     public boolean deleteWithId_defi(String iddefi) {
         int nb = 0;
         try {
@@ -98,7 +98,7 @@ public class IndiceDAO extends DAO<Indice> {
         }
     }
 
-    /*------- Lecture d'une Indice selon son id ---------------*/
+    /*------- Lecture d'un Indice selon son id ---------------*/
     public Indice readWithId(String id) {
         Indice i = new Indice();
         try {
@@ -141,6 +141,7 @@ public class IndiceDAO extends DAO<Indice> {
         return L;
     }
 
+    /* ---- Retourne la derniere valeur de la sequence seq_ind ---- */
     public Integer getCurrentIncrement(){
         Integer lv = 0;
         try {
@@ -157,6 +158,7 @@ public class IndiceDAO extends DAO<Indice> {
         return lv;
     }
 
+    /* ---- Incremente et retourne la valeur de la sequence seq_ind ---- */
     public Integer getNext(){
         Integer lv = 0;
         try {
@@ -173,6 +175,7 @@ public class IndiceDAO extends DAO<Indice> {
         return lv;
     }
 
+    /* ---- retourne true si l'id en parametre existe ---- */
     public boolean indiceExist(Integer id) {
         boolean res = false;
         try {
