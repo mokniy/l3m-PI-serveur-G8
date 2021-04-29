@@ -5,11 +5,18 @@ public class Chamis {
     private Integer age;
     private String ville;
     private String description;
+    private String email;
 
     public Chamis(){
         
     }
     
+    public String getEmail() {
+        return this.email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getPseudo() {
         return this.pseudo;
