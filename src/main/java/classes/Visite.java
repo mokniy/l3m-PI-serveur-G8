@@ -2,7 +2,6 @@ package classes;
 
 public class Visite {
     private String id_vis;
-    private String libelle_vis;
     private String date_vis;
     private String mode_vis;
     private String statut_vis;
@@ -25,13 +24,6 @@ public class Visite {
 		this.id_vis = id_vis;
 	}
 
-	public String getLibelle_vis() {
-		return this.libelle_vis;
-	}
-
-	public void setLibelle_vis(String libelle_vis) {
-		this.libelle_vis = libelle_vis;
-	}
 
 	public String getDate_vis() {
 		return this.date_vis;
