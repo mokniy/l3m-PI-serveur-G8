@@ -19,7 +19,7 @@ public class VisiteDAO extends DAO<Visite> {
     public boolean create(Visite obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO visite VALUES ('"+obj.getId_vis()+"','"+obj.getDate_vis()+"','"+obj.getMode_vis()+"','"+obj.getStatut_vis()+"',"+obj.getPts_vis()+","+obj.getScore_vis()+",'"+obj.getTemps_vis()+"','"+obj.getId_visiteur()+"','"+obj.getId_defi()+"','"+obj.getCommentaire()+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO visite VALUES ('"+obj.getId_vis()+"','"+obj.getDate_vis()+"','"+obj.getMode_vis()+"','"+obj.getStatut_vis()+"',"+obj.getPts_vis()+","+obj.getScore_vis()+",'"+obj.getTemps_vis()+"','"+obj.getId_visiteur()+"','"+obj.getId_defi()+"','"+obj.getCommentaire()+"','"+obj.getIndice_utilise_vis()+"')");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -35,7 +35,7 @@ public class VisiteDAO extends DAO<Visite> {
     public boolean createSansID(Visite obj){
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("INSERT INTO visite (date_vis, mode_vis, statut_vis, pts_vis, score_vis, temps_vis, id_visiteur, id_defis, commentaire) VALUES ('"+obj.getDate_vis()+"','"+obj.getMode_vis()+"','"+obj.getStatut_vis()+"',"+obj.getPts_vis()+","+obj.getScore_vis()+",'"+obj.getTemps_vis()+"','"+obj.getId_visiteur()+"','"+obj.getId_defi()+"','"+obj.getCommentaire()+"')");
+            nb = this.connect.createStatement().executeUpdate("INSERT INTO visite (date_vis, mode_vis, statut_vis, pts_vis, score_vis, temps_vis, id_visiteur, id_defis, commentaire, indice_utilise_vis) VALUES ('"+obj.getDate_vis()+"','"+obj.getMode_vis()+"','"+obj.getStatut_vis()+"',"+obj.getPts_vis()+","+obj.getScore_vis()+",'"+obj.getTemps_vis()+"','"+obj.getId_visiteur()+"','"+obj.getId_defi()+"','"+obj.getCommentaire()+"','"+obj.getIndice_utilise_vis()+"' )");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -56,7 +56,7 @@ public class VisiteDAO extends DAO<Visite> {
     public boolean update(Visite obj) {
         int nb = 0;
         try {
-            nb = this.connect.createStatement().executeUpdate("UPDATE visite SET id_vis = '"+obj.getId_vis()+"', date_vis = '"+obj.getDate_vis()+"', mode_vis = '"+obj.getMode_vis()+"', statut_vis = '"+obj.getStatut_vis()+"', pts_vis = "+obj.getPts_vis()+", score_vis = "+obj.getScore_vis()+", temps_vis = '"+obj.getTemps_vis()+"', id_visiteur = '"+obj.getId_visiteur()+"', id_defis = '"+obj.getId_defi()+"', commentaire='"+obj.getCommentaire()+"' WHERE id_vis = '"+obj.getId_vis()+"'");   
+            nb = this.connect.createStatement().executeUpdate("UPDATE visite SET id_vis = '"+obj.getId_vis()+"', date_vis = '"+obj.getDate_vis()+"', mode_vis = '"+obj.getMode_vis()+"', statut_vis = '"+obj.getStatut_vis()+"', pts_vis = "+obj.getPts_vis()+", score_vis = "+obj.getScore_vis()+", temps_vis = '"+obj.getTemps_vis()+"', id_visiteur = '"+obj.getId_visiteur()+"', id_defis = '"+obj.getId_defi()+"', commentaire='"+obj.getCommentaire()+"', indice_utilise_vis='"+obj.getIndice_utilise_vis()+"' WHERE id_vis = '"+obj.getId_vis()+"'");   
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -102,6 +102,7 @@ public class VisiteDAO extends DAO<Visite> {
             v.setId_visiteur(rs.getString("id_visiteur"));
             v.setId_defi(rs.getString("id_defis"));
             v.setCommentaire(rs.getString("commentaire"));
+            v.setIndice_utilise_vis(rs.getString("indice_utilise_vis"));
         }
         stmt.close();
         } catch (SQLException e) {
@@ -128,6 +129,7 @@ public class VisiteDAO extends DAO<Visite> {
                 v.setId_visiteur(rs.getString("id_visiteur"));
                 v.setId_defi(rs.getString("id_defis"));
                 v.setCommentaire(rs.getString("commentaire"));
+                v.setIndice_utilise_vis(rs.getString("indice_utilise_vis"));
                 L.add(v);
             }
             stmt.close();

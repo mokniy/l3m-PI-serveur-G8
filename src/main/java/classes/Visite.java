@@ -11,6 +11,10 @@ public class Visite {
     private String id_visiteur;
     private String id_defi;
     private String commentaire;
+	public String indice_utilise_vis;
+
+
+
 
     public Visite(){
         
@@ -95,6 +99,14 @@ public class Visite {
 
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
+	}
+
+	public String getIndice_utilise_vis() {
+	   return this.indice_utilise_vis;
+	}
+	
+	public void setIndice_utilise_vis(String indice_utilise_vis) {
+		this.indice_utilise_vis = indice_utilise_vis;
 	}
 
 }
