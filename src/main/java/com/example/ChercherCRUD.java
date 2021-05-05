@@ -217,4 +217,23 @@ public class ChercherCRUD {
 
     }
 
+    /* ---- Rechercher la liste de tous les defis en fonction de id_mc de la base ---- */
+    @GetMapping("/alldefis/type/{mc}&{type}")
+    ArrayList<Defis> allDefis(@PathVariable(value="mc") String mc,@PathVariable(value="type") String type,HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            ChercherDAO chercherDAO = new ChercherDAO(connection);
+            ArrayList<Defis> L = chercherDAO.readAllDefiWithMot_mcAndType(mc,type);
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
 }

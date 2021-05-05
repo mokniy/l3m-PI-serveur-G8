@@ -271,5 +271,35 @@ public class DefisDAO extends DAO<Defis> {
         return L;
     }
 
+    /* ---- Affichage de tous les defis voulus ---- */
+    public Defis readWithIdAndType(String id, String type) {
+        Defis d = new Defis();
+        try {
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE defi = '"+id+"' AND type = '"+type+"'");
+        if (rs.next()) {
+            d.setDefi(rs.getString("defi"));
+            d.setTitre(rs.getString("titre"));
+            d.setDateDeCreation(rs.getString("dateDeCreation"));
+            d.setDescription(rs.getString("description"));
+            d.setAuteur(rs.getString("auteur"));
+            d.setCode_arret(rs.getString("code_arret"));
+            d.setType(rs.getString("type"));
+            d.setDateDeModification(rs.getString("dateDeModification"));
+            d.setVersion(rs.getInt("version"));
+            d.setArret(rs.getString("arret"));
+            d.setPoints(rs.getInt("points"));
+            d.setDuree(rs.getString("duree"));
+            d.setPrologue(rs.getString("prologue"));
+            d.setEpilogue(rs.getString("epilogue"));
+            d.setCommentaire(rs.getString("commentaire"));
+            
+        }
+        stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return d;
+    }
 
 }

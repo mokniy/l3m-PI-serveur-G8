@@ -222,4 +222,28 @@ public class DefisCRUD {
             return null;
         }
     }
+
+    /* Chercher le defi dont l'id est donne dans le path */
+    @GetMapping("/type/{defiId}&{type}")
+    Defis read(@PathVariable(value="defiId") String id, @PathVariable(value="type") String type, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            DefisDAO defisDAO = new DefisDAO(connection);
+            Defis d = defisDAO.readWithIdAndType(id,type);
+            connection.close();
+            if(d.getDefi().equals("null")) {
+                throw new Exception("Defi inexistant");
+            } else {
+                return d;
+            }
+        } catch (Exception e) {
+            response.setStatus(404);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 }
