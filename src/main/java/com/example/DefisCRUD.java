@@ -203,4 +203,23 @@ public class DefisCRUD {
             return null;
         }
     }
+
+    /* Cherche tous les defis en fonction du titre et du type */
+    @GetMapping("/titre/{titre}&{type}")
+    ArrayList<Defis> allDefisByTitreAndType(@PathVariable(value="titre") String titre,@PathVariable(value="type") String type, HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            DefisDAO defis = new DefisDAO(connection);
+            ArrayList<Defis> L = defis.readAllDefisByTitreAndType(titre,type);
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 }

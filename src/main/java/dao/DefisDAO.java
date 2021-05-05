@@ -233,6 +233,43 @@ public class DefisDAO extends DAO<Defis> {
         return res;
     }
 
+    /* ---- Affichage de l'élément voulu---- */
+    public ArrayList<Defis> readAllDefisByTitreAndType(String titre,String type) {
+        ArrayList<Defis> L = new ArrayList<Defis>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs;
+            if (type.equals("both")){
+                rs = stmt.executeQuery("SELECT * FROM defi WHERE titre like '%"+titre+"%'");
+            } else {
+                rs = stmt.executeQuery("SELECT * FROM defi WHERE titre like '%"+titre+"%' and type='"+type+"'");
+            }
+            while (rs.next()) {
+                Defis d = new Defis();
+                d.setDefi(rs.getString("defi"));
+                d.setTitre(rs.getString("titre"));
+                d.setDateDeCreation(rs.getString("dateDeCreation"));
+                d.setDescription(rs.getString("description"));
+                d.setAuteur(rs.getString("auteur"));
+                d.setCode_arret(rs.getString("code_arret"));
+                d.setType(rs.getString("type"));
+                d.setDateDeModification(rs.getString("dateDeModification"));
+                d.setVersion(rs.getInt("version"));
+                d.setArret(rs.getString("arret"));
+                d.setPoints(rs.getInt("points"));
+                d.setDuree(rs.getString("duree"));
+                d.setPrologue(rs.getString("prologue"));
+                d.setEpilogue(rs.getString("epilogue"));
+                d.setCommentaire(rs.getString("commentaire"));
+                L.add(d);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
 
 
 }
