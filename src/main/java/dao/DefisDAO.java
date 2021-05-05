@@ -276,7 +276,13 @@ public class DefisDAO extends DAO<Defis> {
         Defis d = new Defis();
         try {
         Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE defi = '"+id+"' AND type = '"+type+"'");
+        ResultSet rs;
+        if (type.equals("both")){
+                rs = stmt.executeQuery("SELECT * FROM defi WHERE defi = '"+id+"'");
+        }else{
+            rs = stmt.executeQuery("SELECT * FROM defi WHERE defi = '"+id+"' AND type = '"+type+"'");
+        }
+        
         if (rs.next()) {
             d.setDefi(rs.getString("defi"));
             d.setTitre(rs.getString("titre"));

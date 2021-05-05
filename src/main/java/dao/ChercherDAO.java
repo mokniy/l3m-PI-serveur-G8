@@ -210,9 +210,14 @@ public class ChercherDAO extends DAO<Chercher> {
     public ArrayList<Defis> readAllDefiWithMot_mcAndType(String mc, String type) {
         ArrayList<Defis> L = new ArrayList<Defis>();
         try {
-            System.out.println(mc+" "+type);
             Statement stmt = connect.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM defi INNER JOIN CHERCHER ON DEFI.defi=CHERCHER.id_defi INNER JOIN MOT_CLEF ON CHERCHER.id_mc=MOT_CLEF.id_mc WHERE mot_mc = '"+mc+"' AND type = '"+type+"'");
+            ResultSet rs;
+            if (type.equals("both")){
+                rs = stmt.executeQuery("SELECT * FROM defi INNER JOIN CHERCHER ON DEFI.defi=CHERCHER.id_defi INNER JOIN MOT_CLEF ON CHERCHER.id_mc=MOT_CLEF.id_mc WHERE mot_mc = '"+mc+"'");
+            }else{
+                rs = stmt.executeQuery("SELECT * FROM defi INNER JOIN CHERCHER ON DEFI.defi=CHERCHER.id_defi INNER JOIN MOT_CLEF ON CHERCHER.id_mc=MOT_CLEF.id_mc WHERE mot_mc = '"+mc+"' AND type = '"+type+"'");
+            }
+            
             while (rs.next()) {
                 Defis d = new Defis();
                 d.setDefi(rs.getString("defi"));
