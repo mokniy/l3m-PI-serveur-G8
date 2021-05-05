@@ -218,4 +218,31 @@ public class VisiteDAO extends DAO<Visite> {
         }
         return L;
     }
+
+    public ArrayList<Visite> allVisiteWithPseudo(String id) {
+        ArrayList<Visite> L = new ArrayList<Visite>();
+        try {
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM VISITE where id_visiteur = '"+id+"'");
+        while (rs.next()) {
+            Visite v = new Visite();
+            v.setId_vis(rs.getString("id_vis"));
+            v.setDate_vis(rs.getString("date_vis"));
+            v.setMode_vis(rs.getString("mode_vis"));
+            v.setStatut_vis(rs.getString("statut_vis"));
+            v.setPts_vis(rs.getInt("pts_vis"));
+            v.setScore_vis(rs.getInt("score_vis"));
+            v.setTemps_vis(rs.getString("temps_vis"));
+            v.setId_visiteur(rs.getString("id_visiteur"));
+            v.setId_defi(rs.getString("id_defis"));
+            v.setCommentaire(rs.getString("commentaire"));
+            v.setIndice_utilise_vis(rs.getString("indice_utilise_vis"));
+            L.add(v);
+        }
+        stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
 }

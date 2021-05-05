@@ -221,5 +221,25 @@ public class VisiteCRUD {
         }
     }
 
+
+    /* ---- Rechercher la liste de toutes les visites en fonction de l'id de visiteurs de la base ---- */
+    @GetMapping("/withPseudo/{pseudo}")
+    ArrayList<Visite> allVisiteWithPseudo(@PathVariable(value="pseudo") String ps,HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            VisiteDAO visiteDAO = new VisiteDAO(connection);
+            ArrayList<Visite> L = visiteDAO.allVisiteWithPseudo(ps);
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
     
 }

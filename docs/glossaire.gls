@@ -62,4 +62,15 @@ Indice
     | Un `Indice` permet de mieux comprendre le `Defi`.
     | Un `Indice` fait perdre des points au `Chamis` s'il est utilisé.
     | Il peut y avoir plusieurs `Indice`s pour un même `Defi`.
-    
+
+Evaluation
+    | Une `Evaluation` fait partie d'un `Defi`.
+    | 
+    | 
+    | 
+
+Reponse
+    | Une `Reponse` fait partie d'un `Defi`.
+    | 
+    | 
+    | 
