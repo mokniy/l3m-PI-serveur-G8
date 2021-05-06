@@ -308,4 +308,70 @@ public class DefisDAO extends DAO<Defis> {
         return d;
     }
 
+    /* ---- Affichage de la liste de tous les defis ---- */
+    public ArrayList<Defis> readAllDefisEnigme() {
+        ArrayList<Defis> L = new ArrayList<Defis>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE type = 'Enigme'");
+            while (rs.next()) {
+                Defis d = new Defis();
+                d.setDefi(rs.getString("defi"));
+                d.setTitre(rs.getString("titre"));
+                d.setDateDeCreation(rs.getString("dateDeCreation"));
+                d.setDescription(rs.getString("description"));
+                d.setAuteur(rs.getString("auteur"));
+                d.setCode_arret(rs.getString("code_arret"));
+                d.setType(rs.getString("type"));
+                d.setDateDeModification(rs.getString("dateDeModification"));
+                d.setVersion(rs.getInt("version"));
+                d.setArret(rs.getString("arret"));
+                d.setPoints(rs.getInt("points"));
+                d.setDuree(rs.getString("duree"));
+                d.setPrologue(rs.getString("prologue"));
+                d.setEpilogue(rs.getString("epilogue"));
+                d.setCommentaire(rs.getString("commentaire"));
+                L.add(d);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
+
+    
+    /* ---- Affichage de la liste de tous les defis ---- */
+    public ArrayList<Defis> readAllDefisChallenge() {
+        ArrayList<Defis> L = new ArrayList<Defis>();
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM defi WHERE type = 'Challenge'");
+            while (rs.next()) {
+                Defis d = new Defis();
+                d.setDefi(rs.getString("defi"));
+                d.setTitre(rs.getString("titre"));
+                d.setDateDeCreation(rs.getString("dateDeCreation"));
+                d.setDescription(rs.getString("description"));
+                d.setAuteur(rs.getString("auteur"));
+                d.setCode_arret(rs.getString("code_arret"));
+                d.setType(rs.getString("type"));
+                d.setDateDeModification(rs.getString("dateDeModification"));
+                d.setVersion(rs.getInt("version"));
+                d.setArret(rs.getString("arret"));
+                d.setPoints(rs.getInt("points"));
+                d.setDuree(rs.getString("duree"));
+                d.setPrologue(rs.getString("prologue"));
+                d.setEpilogue(rs.getString("epilogue"));
+                d.setCommentaire(rs.getString("commentaire"));
+                L.add(d);
+            }
+            stmt.close();
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return L;
+    }
 }

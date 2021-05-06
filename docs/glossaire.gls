@@ -54,7 +54,6 @@ Visite
 Question
     | Une `Question` fait partie d'un `Defi`. 
     | Une `Question` sert d'évaluation pour un `Defi`. 
-    | Une `Question` peut faire gagner des points au `Chamis` s'il répond correctement.
     | Il peut y avoir plusieurs `Question` pour un même `Defi`.
 
 Indice
@@ -65,12 +64,10 @@ Indice
 
 Evaluation
     | Une `Evaluation` fait partie d'un `Defi`.
-    | 
-    | 
-    | 
+    | Une `Evaluation` permet de verification entre une `Question` et une `Reponse`.
+
+
 
 Reponse
     | Une `Reponse` fait partie d'un `Defi`.
-    | 
-    | 
-    | 
+    | Une `Reponse` permet de faire gagner des points au `Chamis` si elle est correcte.

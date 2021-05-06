@@ -246,4 +246,45 @@ public class DefisCRUD {
             return null;
         }
     }
+
+    
+    /* Chercher tous les defis de la base type enigme */
+    @GetMapping("/enigme/")
+    ArrayList<Defis> readAllDefisEnigme(HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            DefisDAO defis = new DefisDAO(connection);
+            ArrayList<Defis> L = defis.readAllDefisEnigme();
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    
+    
+    /* Chercher tous les defis de la base type challenge */
+    @GetMapping("/challenge")
+    ArrayList<Defis> readAllDefisChallenge(HttpServletResponse response) {
+        try (Connection connection = dataSource.getConnection()) {
+            DefisDAO defis = new DefisDAO(connection);
+            ArrayList<Defis> L = defis.readAllDefisChallenge();
+            return L;
+        } catch (Exception e) {
+            response.setStatus(500);
+            try {
+                response.getOutputStream().print( e.getMessage() );
+            } catch (Exception e2) {
+                System.err.println(e2.getMessage());
+            }
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 }
